@@ -8,20 +8,38 @@ import { useState, useEffect, useRef } from "react";
 // ── Design Tokens ──────────────────────────────────────
 const tokens = {
   colors: {
-    bg: "hsl(40, 30%, 97%)",
-    surface: "hsl(40, 25%, 95%)",
-    surfaceElevated: "hsl(40, 28%, 98%)",
-    textPrimary: "hsl(30, 15%, 15%)",
-    textSecondary: "hsl(30, 10%, 40%)",
-    textMuted: "hsl(35, 10%, 60%)",
-    textDisabled: "hsl(35, 8%, 75%)",
-    border: "hsl(35, 15%, 85%)",
-    borderSubtle: "hsl(35, 12%, 90%)",
-    accent: "hsl(35, 20%, 88%)",
-    accentHover: "hsl(35, 22%, 84%)",
-    hoverBg: "hsl(40, 25%, 93%)",
-    focusRing: "hsl(35, 30%, 80%)",
-    overlay: "hsla(30, 15%, 15%, 0.04)",
+    light: {
+      bg: "hsl(40, 30%, 97%)",
+      surface: "hsl(40, 25%, 95%)",
+      surfaceElevated: "hsl(40, 28%, 98%)",
+      textPrimary: "hsl(30, 15%, 15%)",
+      textSecondary: "hsl(30, 10%, 40%)",
+      textMuted: "hsl(35, 10%, 60%)",
+      textDisabled: "hsl(35, 8%, 75%)",
+      border: "hsl(35, 15%, 85%)",
+      borderSubtle: "hsl(35, 12%, 90%)",
+      accent: "hsl(35, 20%, 88%)",
+      accentHover: "hsl(35, 22%, 84%)",
+      hoverBg: "hsl(40, 25%, 93%)",
+      focusRing: "hsl(35, 30%, 80%)",
+      overlay: "hsla(30, 15%, 15%, 0.04)",
+    },
+    dark: {
+      bg: "hsl(30, 5%, 10.5%)",
+      surface: "hsl(30, 5%, 12%)",
+      surfaceElevated: "hsl(30, 6%, 14%)",
+      textPrimary: "hsl(40, 20%, 92%)",
+      textSecondary: "hsl(40, 15%, 70%)",
+      textMuted: "hsl(30, 10%, 50%)",
+      textDisabled: "hsl(30, 8%, 35%)",
+      border: "hsl(30, 5%, 20%)",
+      borderSubtle: "hsl(30, 5%, 16%)",
+      accent: "hsl(35, 20%, 30%)",
+      accentHover: "hsl(35, 22%, 35%)",
+      hoverBg: "hsl(30, 5%, 15%)",
+      focusRing: "hsl(35, 20%, 50%)",
+      overlay: "hsla(40, 20%, 92%, 0.04)",
+    },
   },
   shadows: {
     sm: "0 1px 2px rgba(0,0,0,0.05)",
@@ -59,14 +77,16 @@ interface SkeletonCardProps {
   lines: Array<"dot" | number>;
   style: React.CSSProperties;
   animDelay: number;
+  isDark: boolean;
 }
 
-const SkeletonCard = ({ lines, style, animDelay }: SkeletonCardProps) => {
+const SkeletonCard = ({ lines, style, animDelay, isDark }: SkeletonCardProps) => {
+  const c = isDark ? tokens.colors.dark : tokens.colors.light;
   return (
     <div style={{
       position: "absolute",
-      background: tokens.colors.surface,
-      border: `1px solid ${tokens.colors.border}`,
+      background: c.surface,
+      border: `1px solid ${c.border}`,
       borderRadius: 8,
       padding: 24,
       boxShadow: tokens.shadows.paper,
@@ -79,14 +99,14 @@ const SkeletonCard = ({ lines, style, animDelay }: SkeletonCardProps) => {
           width: 8,
           height: 8,
           borderRadius: "50%",
-          background: tokens.colors.accent,
+          background: c.accent,
           marginBottom: 12,
         }} />
       ) : (
         <div key={i} style={{
           height: 6,
           borderRadius: 3,
-          background: tokens.colors.accent,
+          background: c.accent,
           width: `${line}%`,
           marginBottom: i < lines.length - 1 ? 8 : 0,
         }} />
@@ -132,9 +152,12 @@ const ScrollLine = () => (
 // ══════════════════════════════════════════════════════
 
 export default function NexoraLandingPage() {
+  const [isDark, setIsDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const stylesRef = useRef<HTMLStyleElement | null>(null);
+
+  const c = isDark ? tokens.colors.dark : tokens.colors.light;
 
   // ── Responsive listener ──
   useEffect(() => {
@@ -168,8 +191,8 @@ export default function NexoraLandingPage() {
   return (
     <div style={{
       fontFamily: "'Geist Sans', system-ui, -apple-system, sans-serif",
-      background: tokens.colors.bg,
-      color: tokens.colors.textPrimary,
+      background: c.bg,
+      color: c.textPrimary,
       minHeight: "100vh",
       position: "relative",
       overflowX: "hidden",
@@ -188,7 +211,7 @@ export default function NexoraLandingPage() {
         position: "fixed",
         inset: 0,
         background: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-        opacity: 0.035,
+        opacity: isDark ? 0.05 : 0.035,
         pointerEvents: "none",
         zIndex: 1,
       }} />
@@ -230,25 +253,46 @@ export default function NexoraLandingPage() {
                 {link}
               </a>
             ))}
+            {/* Theme toggle button - NO ICONS */}
+            <button onClick={() => setIsDark(!isDark)} aria-label="Toggle theme" style={{
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              border: `1px solid ${c.border}`,
+              background: isDark ? c.textPrimary : "transparent",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+            }} />
           </div>
         )}
 
         {/* Mobile controls */}
         {isMobile && (
-          <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} style={{
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            border: `1px solid ${tokens.colors.border}`,
-            background: "transparent",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 0,
-          }}>
-            <HamburgerIcon open={menuOpen} color={tokens.colors.textSecondary} />
-          </button>
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            {/* Theme toggle button - NO ICONS */}
+            <button onClick={() => setIsDark(!isDark)} aria-label="Toggle theme" style={{
+              width: 12,
+              height: 12,
+              borderRadius: "50%",
+              border: `1px solid ${c.border}`,
+              background: isDark ? c.textPrimary : "transparent",
+              cursor: "pointer",
+            }} />
+            <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} style={{
+              width: 36,
+              height: 36,
+              borderRadius: "50%",
+              border: `1px solid ${c.border}`,
+              background: "transparent",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+            }}>
+              <HamburgerIcon open={menuOpen} color={c.textSecondary} />
+            </button>
+          </div>
         )}
       </nav>
 
@@ -260,8 +304,8 @@ export default function NexoraLandingPage() {
           left: 0,
           right: 0,
           zIndex: 99,
-          background: tokens.colors.surface,
-          borderBottom: `1px solid ${tokens.colors.border}`,
+          background: c.surface,
+          borderBottom: `1px solid ${c.border}`,
           padding: "8px 16px 16px",
           animation: "nexoraMenuSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         }}>
@@ -274,7 +318,7 @@ export default function NexoraLandingPage() {
               color: "rgba(180, 150, 100, 0.6)",
               fontFamily: "monospace",
               textDecoration: "none",
-              borderBottom: `1px solid ${tokens.colors.borderSubtle}`,
+              borderBottom: `1px solid ${c.borderSubtle}`,
             }}>
               {link}
             </a>
@@ -289,28 +333,30 @@ export default function NexoraLandingPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: isMobile ? "60px 20px 60px" : "70px 48px 80px",
+        padding: isMobile ? "40px 20px 60px" : "50px 48px 80px",
         position: "relative",
         zIndex: 2,
         textAlign: "center",
       }}>
-        {/* Escher pattern */}
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: isMobile ? 280 : 560,
-          height: isMobile ? 280 : 560,
-          opacity: 0.04,
-          pointerEvents: "none",
-          animation: "nexoraSlowSpin 120s linear infinite",
-        }}>
-          <EscherPattern color={tokens.colors.textPrimary} />
-        </div>
+        {/* Escher pattern - ONLY ON LIGHT THEME */}
+        {!isDark && (
+          <div style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: isMobile ? 280 : 560,
+            height: isMobile ? 280 : 560,
+            opacity: 0.04,
+            pointerEvents: "none",
+            animation: "nexoraSlowSpin 120s linear infinite",
+          }}>
+            <EscherPattern color={c.textPrimary} />
+          </div>
+        )}
 
-        {/* Floating cards — desktop only */}
-        {!isMobile && (
+        {/* Floating cards - ONLY ON LIGHT THEME, desktop only */}
+        {!isDark && !isMobile && (
           <div style={{
             position: "absolute",
             inset: 0,
@@ -318,10 +364,10 @@ export default function NexoraLandingPage() {
             zIndex: 0,
             overflow: "hidden",
           }}>
-            <SkeletonCard lines={["dot", 90, 60, 80]} style={{ top: "18%", left: "8%", width: 180, height: 120 }} animDelay={1.0} />
-            <SkeletonCard lines={[70, 90, 40]} style={{ top: "22%", right: "7%", width: 160, height: 100 }} animDelay={1.2} />
-            <SkeletonCard lines={["dot", 80, 60]} style={{ bottom: "20%", left: "10%", width: 140, height: 90 }} animDelay={1.4} />
-            <SkeletonCard lines={[60, 90, 70, 40]} style={{ bottom: "18%", right: "9%", width: 170, height: 110 }} animDelay={1.6} />
+            <SkeletonCard isDark={isDark} lines={["dot", 90, 60, 80]} style={{ top: "18%", left: "8%", width: 180, height: 120 }} animDelay={1.0} />
+            <SkeletonCard isDark={isDark} lines={[70, 90, 40]} style={{ top: "22%", right: "7%", width: 160, height: 100 }} animDelay={1.2} />
+            <SkeletonCard isDark={isDark} lines={["dot", 80, 60]} style={{ bottom: "20%", left: "10%", width: 140, height: 90 }} animDelay={1.4} />
+            <SkeletonCard isDark={isDark} lines={[60, 90, 70, 40]} style={{ bottom: "18%", right: "9%", width: 170, height: 110 }} animDelay={1.6} />
           </div>
         )}
 
@@ -332,7 +378,7 @@ export default function NexoraLandingPage() {
           fontWeight: 400,
           letterSpacing: "0.15em",
           textTransform: "uppercase" as const,
-          color: tokens.colors.textMuted,
+          color: c.textMuted,
           marginBottom: 32,
           animation: "nexoraFadeUp 0.8s ease-out 0.2s both",
         }}>
@@ -344,7 +390,7 @@ export default function NexoraLandingPage() {
           fontWeight: 200,
           lineHeight: isMobile ? 1.1 : 1.05,
           letterSpacing: isMobile ? "-0.02em" : "-0.03em",
-          color: tokens.colors.textPrimary,
+          color: c.textPrimary,
           maxWidth: isMobile ? "100%" : 720,
           marginBottom: 32,
           animation: "nexoraFadeUp 0.8s ease-out 0.35s both",
@@ -357,7 +403,7 @@ export default function NexoraLandingPage() {
         <p style={{
           fontSize: isMobile ? "0.813rem" : "1rem",
           fontWeight: 300,
-          color: tokens.colors.textSecondary,
+          color: c.textSecondary,
           maxWidth: isMobile ? "100%" : 480,
           lineHeight: 1.7,
           marginBottom: 48,
@@ -383,8 +429,8 @@ export default function NexoraLandingPage() {
             fontWeight: 400,
             letterSpacing: "0.02em",
             padding: isMobile ? "12px 24px" : "14px 32px",
-            background: tokens.colors.textPrimary,
-            color: tokens.colors.bg,
+            background: c.textPrimary,
+            color: c.bg,
             border: "none",
             borderRadius: 8,
             cursor: "pointer",
@@ -407,19 +453,19 @@ export default function NexoraLandingPage() {
             letterSpacing: "0.02em",
             padding: isMobile ? "12px 24px" : "14px 32px",
             background: "transparent",
-            color: tokens.colors.textSecondary,
-            border: `1px solid ${tokens.colors.border}`,
+            color: c.textSecondary,
+            border: `1px solid ${c.border}`,
             borderRadius: 8,
             cursor: "pointer",
             transition: "all 0.3s ease",
             width: isMobile ? "100%" : "auto",
           }} onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = tokens.colors.textMuted;
-            e.currentTarget.style.color = tokens.colors.textPrimary;
-            e.currentTarget.style.background = tokens.colors.surface;
+            e.currentTarget.style.borderColor = c.textMuted;
+            e.currentTarget.style.color = c.textPrimary;
+            e.currentTarget.style.background = c.surface;
           }} onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = tokens.colors.border;
-            e.currentTarget.style.color = tokens.colors.textSecondary;
+            e.currentTarget.style.borderColor = c.border;
+            e.currentTarget.style.color = c.textSecondary;
             e.currentTarget.style.background = "transparent";
           }}>
             Leistungen entdecken
