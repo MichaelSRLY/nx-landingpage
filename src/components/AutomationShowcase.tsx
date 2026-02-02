@@ -2,26 +2,32 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, PenTool, ShieldCheck, Cpu, Zap, Activity } from "lucide-react";
+import { Search, PenTool, ShieldCheck, Cpu, Zap, Activity, CheckCircle2 } from "lucide-react";
 
 const steps = [
     {
-        title: "Requirement Analysis",
-        desc: "Automated aggregation of technical specifications and regulatory constraints.",
+        title: "1. Anforderungsanalyse",
+        desc: "Wir erfassen Ihre Anforderungen, prüfen technische Machbarkeit und identifizieren alle relevanten Gewerke und Schnittstellen.",
         icon: <Search size={24} />,
         color: "var(--accent)"
     },
     {
-        title: "Digital Coordination",
-        desc: "AI-driven scheduling across all trades to eliminate idle times and interface errors.",
-        icon: <Cpu size={24} />,
+        title: "2. Planung & Koordination",
+        desc: "Alle Gewerke werden terminiert, Schnittstellen definiert und Abhängigkeiten geplant — bevor die erste Schaufel den Boden berührt.",
+        icon: <PenTool size={24} />,
         color: "#6366f1"
     },
     {
-        title: "Real-time Auditing",
-        desc: "Continuous monitoring of progress and quality via digital twin integration.",
-        icon: <ShieldCheck size={24} />,
+        title: "3. Umsetzung & Kontrolle",
+        desc: "Wir steuern alle Gewerke, überwachen Qualität und Termine, und lösen Probleme bevor sie eskalieren.",
+        icon: <Activity size={24} />,
         color: "#10b981"
+    },
+    {
+        title: "4. Abnahme & Übergabe",
+        desc: "Dokumentierte Qualitätsprüfung, vollständige Unterlagen, und ein Projekt, das hält was wir versprochen haben.",
+        icon: <CheckCircle2 size={24} />,
+        color: "var(--foreground)"
     }
 ];
 
@@ -36,13 +42,13 @@ export const AutomationShowcase = () => {
     }, []);
 
     return (
-        <section className="section-padding" style={{ background: "var(--surface)", overflow: "hidden" }}>
+        <section className="section-padding" style={{ background: "var(--surface)", position: "relative", overflow: "hidden" }}>
             <div className="max-w-content">
                 <div style={{ textAlign: "center", marginBottom: "80px" }}>
-                    <span className="eyebrow">The REAP Odyssey</span>
-                    <h2 style={{ fontSize: "48px", marginBottom: "24px" }}>Automatisierte Präzision</h2>
-                    <p style={{ color: "var(--muted-foreground)", maxWidth: "600px", margin: "0 auto", fontSize: "18px", fontWeight: 300 }}>
-                        Wir haben Projektmanagement neu definiert. Durch technologische Integration schaffen wir Sicherheit, wo andere in Komplexität versinken.
+                    <span className="eyebrow">Unser Vorgehen</span>
+                    <h2 style={{ fontSize: "48px", marginBottom: "24px" }}>Von der Anfrage bis zur Abnahme</h2>
+                    <p style={{ color: "var(--muted-foreground)", maxWidth: "700px", margin: "0 auto", fontSize: "18px", fontWeight: 300 }}>
+                        Vier Phasen. Ein Verantwortlicher. Jedes Projekt durchläuft unseren bewährten Prozess — strukturiert, transparent, termingerecht.
                     </p>
                 </div>
 
@@ -181,24 +187,48 @@ export const AutomationShowcase = () => {
                                 )}
 
                                 {activeStep === 2 && (
+                                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                        <div style={{ width: "100%", maxWidth: "300px", padding: "20px", background: "var(--surface)", borderRadius: "16px", border: "1px solid var(--border)", position: "relative" }}>
+                                            <div style={{ height: "8px", width: "100%", background: "var(--border)", borderRadius: "4px", marginBottom: "20px", overflow: "hidden" }}>
+                                                <motion.div
+                                                    initial={{ width: "0%" }}
+                                                    animate={{ width: "75%" }}
+                                                    transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                                                    style={{ height: "100%", background: steps[2].color }}
+                                                />
+                                            </div>
+                                            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
+                                                <div style={{ width: "60px", height: "8px", background: "var(--foreground)", opacity: 0.1, borderRadius: "4px" }} />
+                                                <div style={{ width: "30px", height: "8px", background: steps[2].color, opacity: 0.6, borderRadius: "4px" }} />
+                                            </div>
+                                            <div style={{ display: "flex", justifyContent: "space-between" }}>
+                                                <div style={{ width: "80px", height: "8px", background: "var(--foreground)", opacity: 0.1, borderRadius: "4px" }} />
+                                                <div style={{ width: "20px", height: "8px", background: steps[2].color, opacity: 0.6, borderRadius: "4px" }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {activeStep === 3 && (
                                     <div style={{ width: "100%", textAlign: "center" }}>
                                         <motion.div
-                                            animate={{ scale: [1, 1.05, 1] }}
-                                            transition={{ repeat: Infinity, duration: 3 }}
+                                            initial={{ scale: 0.8, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            transition={{ type: "spring", damping: 12 }}
                                             style={{
-                                                width: "200px",
-                                                height: "200px",
-                                                borderRadius: "100px",
-                                                border: `2px solid ${steps[2].color}`,
+                                                width: "160px",
+                                                height: "160px",
+                                                borderRadius: "40px",
+                                                background: "var(--surface)",
+                                                border: `2px solid ${steps[3].color}`,
                                                 margin: "0 auto",
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "center",
-                                                position: "relative"
+                                                boxShadow: `0 20px 40px -10px ${steps[3].color}33`
                                             }}
                                         >
-                                            <div style={{ position: "absolute", inset: "-20px", border: `1px solid ${steps[2].color}`, opacity: 0.2, borderRadius: "50%" }} />
-                                            <Activity size={60} color={steps[2].color} />
+                                            <CheckCircle2 size={80} color={steps[3].color} strokeWidth={1.5} />
                                         </motion.div>
                                     </div>
                                 )}

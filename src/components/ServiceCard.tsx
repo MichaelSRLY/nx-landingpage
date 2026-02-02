@@ -59,7 +59,6 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ title, text, image, in
             </span>
 
             <div className="image-wrapper" style={{
-                height: "260px",
                 position: "relative",
                 overflow: "hidden",
                 borderRadius: "16px",

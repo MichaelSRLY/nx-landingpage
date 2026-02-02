@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nexora | The REAP Odyssey",
-  description: "7.8× compression of GLM-4.7 using Cerebras REAP",
+  title: "Nexora | Komplexe Projekte. Ein Partner.",
+  description: "Energie- und Infrastrukturprojekte aus einer Hand. Von der Anfrage bis zur Abnahme — volle Verantwortung, null Schnittstellenprobleme.",
 };
 
 export default function RootLayout({
