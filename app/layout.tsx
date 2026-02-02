@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nexora - AI-Powered Innovation",
-  description: "Cutting-edge AI solutions for the future",
+  title: "Nexora - Generalunternehmer für Energie & Infrastruktur",
+  description: "Nexora übernimmt die Gesamtverantwortung für Ihre Energie-, Elektro- und Infrastrukturprojekte – von der Anfrage bis zur Abnahme.",
 };
 
 export default function RootLayout({
