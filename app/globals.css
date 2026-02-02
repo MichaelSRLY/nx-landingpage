@@ -1,29 +1,29 @@
 @import "tailwindcss";
 
-/* Warm Paper Design System - Light Mode */
+/* Warm Paper Design System - Light Mode (Default) */
 :root {
-  /* Backgrounds */
-  --background: hsl(40, 30%, 97%);
-  --background-secondary: hsl(40, 25%, 95%);
-  --background-tertiary: hsl(40, 20%, 93%);
-  --background-elevated: hsl(0, 0%, 100%);
+  /* Backgrounds - Warm Cream */
+  --background: #f5f0e8;
+  --background-secondary: #eae4d9;
+  --background-tertiary: #e0d9cc;
+  --background-elevated: #ffffff;
 
-  /* Foreground / Text */
-  --foreground: hsl(30, 15%, 15%);
-  --foreground-secondary: hsl(30, 15%, 35%);
-  --foreground-tertiary: hsl(30, 15%, 55%);
-  --foreground-muted: hsl(30, 10%, 65%);
+  /* Foreground / Text - Dark Brown */
+  --foreground: #2d2a26;
+  --foreground-secondary: #5a5650;
+  --foreground-tertiary: #87827a;
+  --foreground-muted: #a8a39b;
 
   /* Borders */
-  --border: hsl(35, 15%, 85%);
-  --border-light: hsl(35, 15%, 90%);
-  --border-accent: hsl(35, 20%, 75%);
+  --border: #d4cdc1;
+  --border-light: #e0d9cd;
+  --border-accent: #bdb5a8;
 
   /* Accents */
-  --accent: hsl(35, 20%, 88%);
-  --accent-secondary: hsl(35, 20%, 90%);
-  --accent-hover: hsl(35, 25%, 85%);
-  --accent-active: hsl(35, 25%, 80%);
+  --accent: #e8dfd2;
+  --accent-secondary: #ede6db;
+  --accent-hover: #e3d7c5;
+  --accent-active: #ddceb8;
 
   /* Status */
   --success: hsl(120, 25%, 65%);
@@ -32,31 +32,25 @@
   --info: hsl(210, 25%, 60%);
 }
 
-/* Warm Paper Design System - Dark Mode */
+/* Dark Mode Disabled - Light Mode Only */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Backgrounds */
-    --background: hsl(30, 5%, 10.5%);
-    --background-secondary: hsl(30, 5%, 12%);
-    --background-tertiary: hsl(30, 5%, 14%);
-    --background-elevated: hsl(30, 5%, 16%);
-
-    /* Foreground / Text */
-    --foreground: hsl(40, 20%, 92%);
-    --foreground-secondary: hsl(40, 15%, 75%);
-    --foreground-tertiary: hsl(40, 10%, 60%);
-    --foreground-muted: hsl(40, 8%, 45%);
-
-    /* Borders */
-    --border: hsl(30, 5%, 20%);
-    --border-light: hsl(30, 5%, 18%);
-    --border-accent: hsl(30, 5%, 25%);
-
-    /* Accents */
-    --accent: hsl(35, 15%, 28%);
-    --accent-secondary: hsl(35, 15%, 32%);
-    --accent-hover: hsl(35, 18%, 35%);
-    --accent-active: hsl(35, 18%, 40%);
+    /* Keep light mode even if user prefers dark */
+    --background: #f5f0e8;
+    --background-secondary: #eae4d9;
+    --background-tertiary: #e0d9cc;
+    --background-elevated: #ffffff;
+    --foreground: #2d2a26;
+    --foreground-secondary: #5a5650;
+    --foreground-tertiary: #87827a;
+    --foreground-muted: #a8a39b;
+    --border: #d4cdc1;
+    --border-light: #e0d9cd;
+    --border-accent: #bdb5a8;
+    --accent: #e8dfd2;
+    --accent-secondary: #ede6db;
+    --accent-hover: #e3d7c5;
+    --accent-active: #ddceb8;
   }
 }
 

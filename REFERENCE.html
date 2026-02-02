@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Nexora - Generalunternehmer für Energie & Infrastruktur</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #f5f0e8;
+      color: #2d2a26;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 48px;
+      background: white;
+      border-bottom: 1px solid #e5e0d8;
+    }
+    .logo { font-size: 24px; font-weight: 600; }
+    nav { display: flex; gap: 32px; align-items: center; }
+    nav a { text-decoration: none; color: #2d2a26; font-size: 14px; }
+    .btn-primary {
+      background: #2d2a26;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .btn-secondary {
+      background: #e5e0d8;
+      color: #2d2a26;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 48px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero .subtitle {
+      font-size: 24px;
+      font-weight: 500;
+      color: #5a5650;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #6a6560;
+      margin-bottom: 32px;
+    }
+    .hero-buttons { display: flex; gap: 16px; justify-content: center; }
+    section { padding: 80px 48px; max-width: 1200px; margin: 0 auto; }
+    section h2 { font-size: 36px; margin-bottom: 16px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: white;
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid #e5e0d8;
+    }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      padding: 64px;
+      background: white;
+    }
+    .stat { text-align: center; }
+    .stat-value { font-size: 48px; font-weight: 700; }
+    .stat-label { font-size: 14px; color: #6a6560; }
+    footer {
+      background: #2d2a26;
+      color: white;
+      padding: 64px 48px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Nexora</div>
+    <nav>
+      <a href="#">Startseite</a>
+      <a href="#leistungen">Leistungen</a>
+      <a href="#vorgehen">Vorgehen</a>
+      <a href="#referenzen">Referenzen</a>
+      <a href="#ueber-uns">Über uns</a>
+      <a href="#kontakt" class="btn-primary">Projekt anfragen</a>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <h1>Generalunternehmer für Energie & Infrastruktur</h1>
+      <p class="subtitle">Komplexe Projekte. Ein Partner.</p>
+      <p>Nexora übernimmt die Gesamtverantwortung für Ihre Energie-, Elektro- und Infrastrukturprojekte – von der Anfrage bis zur Abnahme.</p>
+      <div class="hero-buttons">
+        <a href="#kontakt" class="btn-primary">Projekt anfragen</a>
+        <a href="#leistungen" class="btn-secondary">Leistungen entdecken</a>
+      </div>
+    </section>
+    
+    <section id="problem">
+      <h2>Das Problem</h2>
+      <p class="subtitle">Komplexe Projekte, viele Gewerke – wer koordiniert?</p>
+      <p>Bei Großprojekten im Bereich Energie und Infrastruktur arbeiten zahlreiche Spezialisten zusammen: Elektriker, Tiefbauer, Blitzschutz-Experten, PV-Installateure und viele mehr. Das Ergebnis ohne zentrale Steuerung: Terminverzögerungen, Schnittstellenprobleme und undurchsichtige Verantwortlichkeiten.</p>
+    </section>
+    
+    <section id="loesung">
+      <h2>Unsere Lösung: One Face to the Customer</h2>
+      <ul>
+        <li>Ein Ansprechpartner für alle Gewerke</li>
+        <li>Klare Verantwortlichkeiten und Prozesse</li>
+        <li>Transparente Kommunikation und Reporting</li>
+        <li>Terminsicherheit durch professionelles Projektmanagement</li>
+        <li>Qualitätssicherung über alle Schnittstellen</li>
+      </ul>
+    </section>
+    
+    <section id="vorteile">
+      <h2>Ihre Vorteile</h2>
+      <p>Warum Auftraggeber mit Nexora arbeiten</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Ein Ansprechpartner</h3>
+          <p>Keine Koordination zwischen Dutzenden Gewerken. Sie sprechen mit uns – wir kümmern uns um den Rest.</p>
+        </div>
+        <div class="card">
+          <h3>Gesamtverantwortung</h3>
+          <p>Wir übernehmen die volle Verantwortung für Ihr Projekt. Termine, Qualität und Budget aus einer Hand.</p>
+        </div>
+        <div class="card">
+          <h3>Strukturiertes Vorgehen</h3>
+          <p>Klare Prozesse, transparente Kommunikation und nachvollziehbare Meilensteine von Anfang bis Ende.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="leistungen">
+      <h2>Leistungen</h2>
+      <p>Was wir für Sie tun</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Generalunternehmung</h3>
+          <p>Wir bündeln alle Gewerke und übernehmen die Gesamtverantwortung für Ihr Projekt.</p>
+        </div>
+        <div class="card">
+          <h3>Projektmanagement</h3>
+          <p>Professionelle Steuerung komplexer Vorhaben mit klaren Strukturen und Prozessen.</p>
+        </div>
+        <div class="card">
+          <h3>Energie & Elektro</h3>
+          <p>Spezialisiert auf anspruchsvolle Energie- und Elektroinfrastruktur-Projekte.</p>
+        </div>
+        <div class="card">
+          <h3>Infrastruktur</h3>
+          <p>Von Tiefbau über Kabelverlegung bis zur schlüsselfertigen Übergabe.</p>
+        </div>
+      </div>
+    </section>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">150+</div>
+        <div class="stat-label">Abgeschlossene Projekte</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">98%</div>
+        <div class="stat-label">Termingerechte Übergabe</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">15+</div>
+        <div class="stat-label">Jahre Erfahrung</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Gesamtverantwortung</div>
+      </div>
+    </div>
+    
+    <section id="auftraggeber">
+      <h2>Für wen wir arbeiten</h2>
+      <p>Unsere Auftraggeber</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Industrieunternehmen</h3>
+          <p>Produktions- und Logistikstandorte</p>
+        </div>
+        <div class="card">
+          <h3>Projektentwickler</h3>
+          <p>Gewerbliche Bauprojekte</p>
+        </div>
+        <div class="card">
+          <h3>Energieversorger</h3>
+          <p>Infrastruktur & Netzausbau</p>
+        </div>
+        <div class="card">
+          <h3>Betreiber</h3>
+          <p>Märkte, Gewerbeimmobilien</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="cta" style="text-align: center;">
+      <h2>Bereit für Ihr nächstes Projekt?</h2>
+      <p>Lassen Sie uns gemeinsam besprechen, wie wir Ihr Vorhaben erfolgreich umsetzen können. Unverbindlich und transparent.</p>
+      <a href="#kontakt" class="btn-primary" style="margin-top: 24px; display: inline-block;">Projekt anfragen</a>
+    </section>
+  </main>
+  
+  <footer>
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <p style="font-size: 18px; margin-bottom: 32px;">Ihr Generalunternehmer für komplexe Energie-, Elektro- und Infrastrukturprojekte. Ein Ansprechpartner – von der Anfrage bis zur Abnahme.</p>
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <p>Grüner Ring 15</p>
+          <p>04509 Delitzsch</p>
+          <p>info@nexora-pv.de</p>
+          <p>+49 (0) 34202 899882</p>
+        </div>
+        <div>
+          <p>© 2026 Nexora GmbH. Alle Rechte vorbehalten.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
