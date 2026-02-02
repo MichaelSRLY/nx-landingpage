@@ -1,326 +1,199 @@
-import { Container, Section, Button, Card, Navigation } from '@/components';
-
 export default function Home() {
   return (
     <>
-      <Navigation />
-      <main className="min-h-screen">
-        {/* Hero Section */}
-        <Section className="pt-32 pb-20 sm:pt-40">
-          <Container size="narrow">
-            <div className="text-center space-y-8">
-              <div className="space-y-6">
-                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight leading-[1.1]">
-                  Generalunternehmer für<br />Energie & Infrastruktur
-                </h1>
-                <p className="text-2xl sm:text-3xl text-foreground-secondary font-medium tracking-tight">
-                  Komplexe Projekte. Ein Partner.
-                </p>
-                <p className="text-base sm:text-lg text-foreground-tertiary max-w-2xl mx-auto leading-relaxed pt-4">
-                  Nexora übernimmt die Gesamtverantwortung für Ihre Energie-, Elektro- und Infrastrukturprojekte – von der Anfrage bis zur Abnahme.
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <Button size="lg">Projekt anfragen</Button>
-                <Button variant="secondary" size="lg">Leistungen entdecken</Button>
-              </div>
-            </div>
-          </Container>
-        </Section>
+      {/* Header */}
+      <header className="flex justify-between items-center px-12 py-4 bg-white border-b border-[#e5e0d8]">
+        <div className="text-2xl font-semibold">Nexora</div>
+        <nav className="flex gap-8 items-center">
+          <a href="#" className="text-sm hover:opacity-70">Startseite</a>
+          <a href="#leistungen" className="text-sm hover:opacity-70">Leistungen</a>
+          <a href="#vorgehen" className="text-sm hover:opacity-70">Vorgehen</a>
+          <a href="#referenzen" className="text-sm hover:opacity-70">Referenzen</a>
+          <a href="#ueber-uns" className="text-sm hover:opacity-70">Über uns</a>
+          <a href="#kontakt" className="bg-[#2d2a26] text-white px-5 py-2.5 rounded-md text-sm hover:opacity-90">
+            Projekt anfragen
+          </a>
+        </nav>
+      </header>
 
-        {/* Stats Section */}
-        <Section background="secondary" className="py-12 sm:py-16">
-          <Container>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center">
-              {[
-                { value: '150+', label: 'Abgeschlossene Projekte' },
-                { value: '98%', label: 'Termingerechte Übergabe' },
-                { value: '15+', label: 'Jahre Erfahrung' },
-                { value: '100%', label: 'Gesamtverantwortung' },
-              ].map((stat, i) => (
-                <div key={i} className="space-y-2">
-                  <div className="text-4xl sm:text-5xl font-semibold tracking-tight text-foreground">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs sm:text-sm text-foreground-tertiary">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </Section>
+      <main>
+        {/* Hero Section */}
+        <section className="text-center px-12 py-32 max-w-[900px] mx-auto">
+          <h1 className="text-[56px] font-semibold leading-[1.1] mb-6">
+            Generalunternehmer für Energie & Infrastruktur
+          </h1>
+          <p className="text-2xl font-medium text-[#5a5650] mb-4">
+            Komplexe Projekte. Ein Partner.
+          </p>
+          <p className="text-lg text-[#6a6560] mb-8">
+            Nexora übernimmt die Gesamtverantwortung für Ihre Energie-, Elektro- und Infrastrukturprojekte – von der Anfrage bis zur Abnahme.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <a href="#kontakt" className="bg-[#2d2a26] text-white px-5 py-2.5 rounded-md hover:opacity-90">
+              Projekt anfragen
+            </a>
+            <a href="#leistungen" className="bg-[#e5e0d8] text-[#2d2a26] px-5 py-2.5 rounded-md hover:opacity-90">
+              Leistungen entdecken
+            </a>
+          </div>
+        </section>
 
         {/* Problem Section */}
-        <Section className="py-16 sm:py-24">
-          <Container size="narrow">
-            <div className="space-y-6">
-              <div className="text-xs sm:text-sm text-foreground-muted uppercase tracking-widest font-medium">
-                Das Problem
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                Komplexe Projekte, viele Gewerke – wer koordiniert?
-              </h2>
-              <p className="text-base sm:text-lg text-foreground-secondary leading-relaxed">
-                Bei Großprojekten im Bereich Energie und Infrastruktur arbeiten zahlreiche Spezialisten zusammen: Elektriker, Tiefbauer, Blitzschutz-Experten, PV-Installateure und viele mehr. Das Ergebnis ohne zentrale Steuerung: Terminverzögerungen, Schnittstellenprobleme und undurchsichtige Verantwortlichkeiten.
-              </p>
-            </div>
-          </Container>
-        </Section>
+        <section id="problem" className="px-12 py-20 max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Das Problem</h2>
+          <p className="text-xl font-medium text-[#5a5650] mb-4">
+            Komplexe Projekte, viele Gewerke – wer koordiniert?
+          </p>
+          <p className="text-base text-[#6a6560] leading-relaxed">
+            Bei Großprojekten im Bereich Energie und Infrastruktur arbeiten zahlreiche Spezialisten zusammen: Elektriker, Tiefbauer, Blitzschutz-Experten, PV-Installateure und viele mehr. Das Ergebnis ohne zentrale Steuerung: Terminverzögerungen, Schnittstellenprobleme und undurchsichtige Verantwortlichkeiten.
+          </p>
+        </section>
 
         {/* Solution Section */}
-        <Section background="secondary" className="py-16 sm:py-24">
-          <Container size="narrow">
-            <div className="space-y-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                Unsere Lösung: One Face to the Customer
-              </h2>
-              <div className="space-y-4">
-                {[
-                  'Ein Ansprechpartner für alle Gewerke',
-                  'Klare Verantwortlichkeiten und Prozesse',
-                  'Transparente Kommunikation und Reporting',
-                  'Terminsicherheit durch professionelles Projektmanagement',
-                  'Qualitätssicherung über alle Schnittstellen',
-                ].map((point, i) => (
-                  <div key={i} className="flex gap-4 items-start">
-                    <div className="w-6 h-6 rounded-full bg-foreground text-background flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2.5}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <p className="text-base sm:text-lg text-foreground-secondary leading-relaxed">{point}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </Section>
+        <section id="loesung" className="px-12 py-20 max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Unsere Lösung: One Face to the Customer</h2>
+          <ul className="space-y-3 text-base text-[#6a6560]">
+            <li>• Ein Ansprechpartner für alle Gewerke</li>
+            <li>• Klare Verantwortlichkeiten und Prozesse</li>
+            <li>• Transparente Kommunikation und Reporting</li>
+            <li>• Terminsicherheit durch professionelles Projektmanagement</li>
+            <li>• Qualitätssicherung über alle Schnittstellen</li>
+          </ul>
+        </section>
 
         {/* Benefits Section */}
-        <Section className="py-16 sm:py-24">
-          <Container>
-            <div className="space-y-12 sm:space-y-16">
-              <div className="text-center space-y-4 max-w-3xl mx-auto">
-                <div className="text-xs sm:text-sm text-foreground-muted uppercase tracking-widest font-medium">
-                  Ihre Vorteile
-                </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                  Warum Auftraggeber mit Nexora arbeiten
-                </h2>
-                <p className="text-base sm:text-lg text-foreground-secondary">
-                  Wir reduzieren Komplexität und schaffen klare Strukturen für Ihren Projekterfolg.
-                </p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
-                {[
-                  {
-                    number: '01',
-                    title: 'Ein Ansprechpartner',
-                    description: 'Keine Koordination zwischen Dutzenden Gewerken. Sie sprechen mit uns – wir kümmern uns um den Rest.',
-                  },
-                  {
-                    number: '02',
-                    title: 'Gesamtverantwortung',
-                    description: 'Wir übernehmen die volle Verantwortung für Ihr Projekt. Termine, Qualität und Budget aus einer Hand.',
-                  },
-                  {
-                    number: '03',
-                    title: 'Strukturiertes Vorgehen',
-                    description: 'Klare Prozesse, transparente Kommunikation und nachvollziehbare Meilensteine von Anfang bis Ende.',
-                  },
-                ].map((benefit, i) => (
-                  <div key={i} className="space-y-4">
-                    <div className="text-sm font-mono text-foreground-muted">{benefit.number}</div>
-                    <h3 className="text-xl sm:text-2xl font-semibold tracking-tight">
-                      {benefit.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-foreground-secondary leading-relaxed">
-                      {benefit.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+        <section id="vorteile" className="px-12 py-20 max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Ihre Vorteile</h2>
+          <p className="text-base text-[#6a6560] mb-8">Warum Auftraggeber mit Nexora arbeiten</p>
+          <div className="grid grid-cols-3 gap-6">
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Ein Ansprechpartner</h3>
+              <p className="text-base text-[#6a6560]">
+                Keine Koordination zwischen Dutzenden Gewerken. Sie sprechen mit uns – wir kümmern uns um den Rest.
+              </p>
             </div>
-          </Container>
-        </Section>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Gesamtverantwortung</h3>
+              <p className="text-base text-[#6a6560]">
+                Wir übernehmen die volle Verantwortung für Ihr Projekt. Termine, Qualität und Budget aus einer Hand.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Strukturiertes Vorgehen</h3>
+              <p className="text-base text-[#6a6560]">
+                Klare Prozesse, transparente Kommunikation und nachvollziehbare Meilensteine von Anfang bis Ende.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* Services Section */}
-        <Section background="secondary" className="py-16 sm:py-24">
-          <Container>
-            <div className="space-y-12 sm:space-y-16">
-              <div className="text-center space-y-4 max-w-3xl mx-auto">
-                <div className="text-xs sm:text-sm text-foreground-muted uppercase tracking-widest font-medium">
-                  Leistungen
-                </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                  Was wir für Sie tun
-                </h2>
-                <p className="text-base sm:text-lg text-foreground-secondary">
-                  Von der ersten Beratung bis zur finalen Abnahme – wir begleiten Ihr Projekt in allen Phasen.
-                </p>
-              </div>
-              <div className="grid sm:grid-cols-2 gap-6">
-                {[
-                  {
-                    title: 'Generalunternehmung',
-                    description: 'Wir bündeln alle Gewerke und übernehmen die Gesamtverantwortung für Ihr Projekt.',
-                  },
-                  {
-                    title: 'Projektmanagement',
-                    description: 'Professionelle Steuerung komplexer Vorhaben mit klaren Strukturen und Prozessen.',
-                  },
-                  {
-                    title: 'Energie & Elektro',
-                    description: 'Spezialisiert auf anspruchsvolle Energie- und Elektroinfrastruktur-Projekte.',
-                  },
-                  {
-                    title: 'Infrastruktur',
-                    description: 'Von Tiefbau über Kabelverlegung bis zur schlüsselfertigen Übergabe.',
-                  },
-                ].map((service, i) => (
-                  <div key={i} className="p-6 sm:p-8 bg-background border border-border rounded-lg space-y-3">
-                    <h3 className="text-xl sm:text-2xl font-semibold tracking-tight">
-                      {service.title}
-                    </h3>
-                    <p className="text-sm sm:text-base text-foreground-secondary leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="text-center pt-4">
-                <Button variant="outline" size="lg">Alle Leistungen ansehen</Button>
-              </div>
-            </div>
-          </Container>
-        </Section>
-
-        {/* Target Clients Section */}
-        <Section className="py-16 sm:py-24">
-          <Container>
-            <div className="space-y-12 sm:space-y-16">
-              <div className="text-center space-y-4 max-w-3xl mx-auto">
-                <div className="text-xs sm:text-sm text-foreground-muted uppercase tracking-widest font-medium">
-                  Für wen wir arbeiten
-                </div>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                  Unsere Auftraggeber
-                </h2>
-                <p className="text-base sm:text-lg text-foreground-secondary">
-                  Wir sind der richtige Partner für Unternehmen mit komplexen Anforderungen.
-                </p>
-              </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {[
-                  {
-                    title: 'Industrieunternehmen',
-                    description: 'Produktions- und Logistikstandorte',
-                  },
-                  {
-                    title: 'Projektentwickler',
-                    description: 'Gewerbliche Bauprojekte',
-                  },
-                  {
-                    title: 'Energieversorger',
-                    description: 'Infrastruktur & Netzausbau',
-                  },
-                  {
-                    title: 'Betreiber',
-                    description: 'Märkte, Gewerbeimmobilien',
-                  },
-                ].map((client, i) => (
-                  <div key={i} className="space-y-2 text-center sm:text-left">
-                    <h3 className="text-lg sm:text-xl font-semibold tracking-tight">
-                      {client.title}
-                    </h3>
-                    <p className="text-sm text-foreground-tertiary">
-                      {client.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </Container>
-        </Section>
-
-        {/* Final CTA Section */}
-        <Section background="secondary" className="py-16 sm:py-24">
-          <Container size="narrow">
-            <div className="text-center space-y-8">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight leading-tight">
-                Bereit für Ihr nächstes Projekt?
-              </h2>
-              <p className="text-base sm:text-lg text-foreground-secondary max-w-2xl mx-auto">
-                Lassen Sie uns gemeinsam besprechen, wie wir Ihr Vorhaben erfolgreich umsetzen können. Unverbindlich und transparent.
+        <section id="leistungen" className="px-12 py-20 max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Leistungen</h2>
+          <p className="text-base text-[#6a6560] mb-8">Was wir für Sie tun</p>
+          <div className="grid grid-cols-3 gap-6">
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Generalunternehmung</h3>
+              <p className="text-base text-[#6a6560]">
+                Wir bündeln alle Gewerke und übernehmen die Gesamtverantwortung für Ihr Projekt.
               </p>
-              <Button size="lg">Projekt anfragen</Button>
             </div>
-          </Container>
-        </Section>
-
-        {/* Footer */}
-        <footer className="border-t border-border bg-background">
-          <Container>
-            <div className="py-12 sm:py-16 space-y-12">
-              {/* Tagline */}
-              <div className="text-center max-w-3xl mx-auto">
-                <p className="text-sm sm:text-base text-foreground-secondary leading-relaxed">
-                  Ihr Generalunternehmer für komplexe Energie-, Elektro- und Infrastrukturprojekte. Ein Ansprechpartner – von der Anfrage bis zur Abnahme.
-                </p>
-              </div>
-
-              {/* Contact & Navigation */}
-              <div className="grid sm:grid-cols-3 gap-8 text-sm">
-                <div className="space-y-3">
-                  <div className="font-semibold text-foreground text-xs uppercase tracking-wider">Kontakt</div>
-                  <div className="space-y-1.5 text-foreground-secondary">
-                    <p>Grüner Ring 15</p>
-                    <p>04509 Delitzsch</p>
-                    <p className="pt-2">
-                      <a href="mailto:info@nexora-pv.de" className="hover:text-foreground transition-colors">
-                        info@nexora-pv.de
-                      </a>
-                    </p>
-                    <p>
-                      <a href="tel:+4934202899882" className="hover:text-foreground transition-colors">
-                        +49 (0) 34202 899882
-                      </a>
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="font-semibold text-foreground text-xs uppercase tracking-wider">Navigation</div>
-                  <div className="space-y-1.5 text-foreground-secondary">
-                    <p><a href="#" className="hover:text-foreground transition-colors">Startseite</a></p>
-                    <p><a href="#leistungen" className="hover:text-foreground transition-colors">Leistungen</a></p>
-                    <p><a href="#vorgehen" className="hover:text-foreground transition-colors">Vorgehen</a></p>
-                    <p><a href="#referenzen" className="hover:text-foreground transition-colors">Referenzen</a></p>
-                    <p><a href="#ueber-uns" className="hover:text-foreground transition-colors">Über uns</a></p>
-                    <p><a href="#kontakt" className="hover:text-foreground transition-colors">Kontakt</a></p>
-                  </div>
-                </div>
-                <div className="space-y-3">
-                  <div className="font-semibold text-foreground text-xs uppercase tracking-wider">Rechtliches</div>
-                  <div className="space-y-1.5 text-foreground-secondary">
-                    <p><a href="#impressum" className="hover:text-foreground transition-colors">Impressum</a></p>
-                    <p><a href="#datenschutz" className="hover:text-foreground transition-colors">Datenschutz</a></p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Copyright */}
-              <div className="pt-8 border-t border-border text-center text-xs text-foreground-muted">
-                © 2026 Nexora GmbH. Alle Rechte vorbehalten.
-              </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Projektmanagement</h3>
+              <p className="text-base text-[#6a6560]">
+                Professionelle Steuerung komplexer Vorhaben mit klaren Strukturen und Prozessen.
+              </p>
             </div>
-          </Container>
-        </footer>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Energie & Elektro</h3>
+              <p className="text-base text-[#6a6560]">
+                Spezialisiert auf anspruchsvolle Energie- und Elektroinfrastruktur-Projekte.
+              </p>
+            </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8] col-span-3 max-w-md mx-auto">
+              <h3 className="text-xl font-semibold mb-3">Infrastruktur</h3>
+              <p className="text-base text-[#6a6560]">
+                Von Tiefbau über Kabelverlegung bis zur schlüsselfertigen Übergabe.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <div className="flex justify-center gap-16 px-12 py-16 bg-white">
+          <div className="text-center">
+            <div className="text-5xl font-bold">150+</div>
+            <div className="text-sm text-[#6a6560] mt-2">Abgeschlossene Projekte</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold">98%</div>
+            <div className="text-sm text-[#6a6560] mt-2">Termingerechte Übergabe</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold">15+</div>
+            <div className="text-sm text-[#6a6560] mt-2">Jahre Erfahrung</div>
+          </div>
+          <div className="text-center">
+            <div className="text-5xl font-bold">100%</div>
+            <div className="text-sm text-[#6a6560] mt-2">Gesamtverantwortung</div>
+          </div>
+        </div>
+
+        {/* Clients Section */}
+        <section id="auftraggeber" className="px-12 py-20 max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Für wen wir arbeiten</h2>
+          <p className="text-base text-[#6a6560] mb-8">Unsere Auftraggeber</p>
+          <div className="grid grid-cols-3 gap-6">
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Industrieunternehmen</h3>
+              <p className="text-base text-[#6a6560]">Produktions- und Logistikstandorte</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Projektentwickler</h3>
+              <p className="text-base text-[#6a6560]">Gewerbliche Bauprojekte</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8]">
+              <h3 className="text-xl font-semibold mb-3">Energieversorger</h3>
+              <p className="text-base text-[#6a6560]">Infrastruktur & Netzausbau</p>
+            </div>
+            <div className="bg-white p-8 rounded-xl border border-[#e5e0d8] col-span-3 max-w-md mx-auto">
+              <h3 className="text-xl font-semibold mb-3">Betreiber</h3>
+              <p className="text-base text-[#6a6560]">Märkte, Gewerbeimmobilien</p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section id="cta" className="px-12 py-20 text-center max-w-[1200px] mx-auto">
+          <h2 className="text-4xl font-semibold mb-4">Bereit für Ihr nächstes Projekt?</h2>
+          <p className="text-base text-[#6a6560] mb-8">
+            Lassen Sie uns gemeinsam besprechen, wie wir Ihr Vorhaben erfolgreich umsetzen können. Unverbindlich und transparent.
+          </p>
+          <a href="#kontakt" className="inline-block bg-[#2d2a26] text-white px-5 py-2.5 rounded-md hover:opacity-90">
+            Projekt anfragen
+          </a>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-[#2d2a26] text-white px-12 py-16">
+        <div className="max-w-[1200px] mx-auto">
+          <p className="text-lg mb-8">
+            Ihr Generalunternehmer für komplexe Energie-, Elektro- und Infrastrukturprojekte. Ein Ansprechpartner – von der Anfrage bis zur Abnahme.
+          </p>
+          <div className="flex justify-between">
+            <div className="space-y-1">
+              <p>Grüner Ring 15</p>
+              <p>04509 Delitzsch</p>
+              <p>info@nexora-pv.de</p>
+              <p>+49 (0) 34202 899882</p>
+            </div>
+            <div>
+              <p>© 2026 Nexora GmbH. Alle Rechte vorbehalten.</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
