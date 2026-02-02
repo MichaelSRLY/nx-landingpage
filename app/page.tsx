@@ -134,14 +134,15 @@ const ScrollHint = ({ isDark }: { isDark: boolean }) => {
   return (
     <div style={{
       position: "absolute",
-      bottom: 32,
+      bottom: 48,
       left: "50%",
       transform: "translateX(-50%)",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      gap: 8,
-      animation: "nexoraFadeUp 0.8s ease-out 1s both",
+      gap: 12,
+      animation: "nexoraScrollBounce 2s ease-in-out infinite",
+      cursor: "pointer",
     }}>
       <span style={{
         fontFamily: "'Geist Mono', monospace",
@@ -150,23 +151,15 @@ const ScrollHint = ({ isDark }: { isDark: boolean }) => {
         textTransform: "uppercase" as const,
         color: c.textMuted,
       }}>Scroll</span>
-      <div style={{
-        width: 1,
-        height: 32,
-        background: c.border,
-        position: "relative",
-        overflow: "hidden",
-      }}>
-        <div style={{
-          position: "absolute",
-          top: "-100%",
-          left: 0,
-          width: "100%",
-          height: "100%",
-          background: c.textMuted,
-          animation: "nexoraScrollPulse 2s ease-in-out infinite",
-        }} />
-      </div>
+      <svg width="24" height="36" viewBox="0 0 24 36" fill="none">
+        <path d="M12 2L12 28M12 28L6 22M12 28L18 22"
+          stroke={c.textMuted}
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ animation: "nexoraArrowBounce 2s ease-in-out infinite" }}
+        />
+      </svg>
     </div>
   );
 };
@@ -197,13 +190,21 @@ export default function NexoraLandingPage() {
     if (typeof document === "undefined") return;
     const style = document.createElement("style");
     style.textContent = `
-      @keyframes nexoraFadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-      @keyframes nexoraFadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes nexoraFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes nexoraFadeDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes nexoraSlowSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-      @keyframes nexoraFloatIn { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-      @keyframes nexoraFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+      @keyframes nexoraFloatIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+      @keyframes nexoraFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
       @keyframes nexoraScrollPulse { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
       @keyframes nexoraMenuSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes nexoraScrollBounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+        50% { transform: translateX(-50%) translateY(12px); opacity: 0.7; }
+      }
+      @keyframes nexoraArrowBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(6px); }
+      }
     `;
     document.head.appendChild(style);
     stylesRef.current = style;
@@ -254,7 +255,6 @@ export default function NexoraLandingPage() {
         backdropFilter: "blur(16px)",
         WebkitBackdropFilter: "blur(16px)",
         background: `color-mix(in srgb, ${c.bg} 80%, transparent)`,
-        borderBottom: `1px solid ${c.border}`,
         animation: "nexoraFadeDown 0.8s ease-out",
       }}>
         {/* Logo */}
@@ -295,7 +295,9 @@ export default function NexoraLandingPage() {
               alignItems: "center",
               justifyContent: "center",
               transition: "all 0.3s ease",
-              fontSize: "0.875rem",
+              fontSize: "0.625rem",
+              fontFamily: "'Geist Mono', monospace",
+              fontWeight: 600,
             }} onMouseEnter={(e) => {
               e.currentTarget.style.background = c.accent;
               e.currentTarget.style.color = c.textPrimary;
@@ -303,7 +305,7 @@ export default function NexoraLandingPage() {
               e.currentTarget.style.background = c.surface;
               e.currentTarget.style.color = c.textSecondary;
             }}>
-              {isDark ? "☀" : "☾"}
+              {isDark ? "L" : "D"}
             </button>
           </div>
         )}
@@ -322,9 +324,11 @@ export default function NexoraLandingPage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "0.813rem",
+              fontSize: "0.625rem",
+              fontFamily: "'Geist Mono', monospace",
+              fontWeight: 600,
             }}>
-              {isDark ? "☀" : "☾"}
+              {isDark ? "L" : "D"}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} style={{
               width: 36,
@@ -375,12 +379,12 @@ export default function NexoraLandingPage() {
 
       {/* ═══════ HERO ═══════ */}
       <section style={{
-        minHeight: "100vh",
+        minHeight: "110vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: isMobile ? "100px 20px 48px" : "128px 48px 64px",
+        padding: isMobile ? "100px 20px 60px" : "140px 48px 80px",
         position: "relative",
         zIndex: 2,
         textAlign: "center",
