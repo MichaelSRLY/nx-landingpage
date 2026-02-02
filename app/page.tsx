@@ -1,55 +1,35 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 
-/* ═══════════════════════════════════════════════════════
-   NEXORA - Generalunternehmer für Energie & Infrastruktur
-   ═══════════════════════════════════════════════════════ */
-
-// ── Design Tokens ──────────────────────────────────────
 const tokens = {
   colors: {
     light: {
       bg: "hsl(40, 30%, 97%)",
       surface: "hsl(40, 25%, 95%)",
-      surfaceElevated: "hsl(40, 28%, 98%)",
       textPrimary: "hsl(30, 15%, 15%)",
       textSecondary: "hsl(30, 10%, 40%)",
       textMuted: "hsl(35, 10%, 60%)",
-      textDisabled: "hsl(35, 8%, 75%)",
       border: "hsl(35, 15%, 85%)",
       borderSubtle: "hsl(35, 12%, 90%)",
       accent: "hsl(35, 20%, 88%)",
-      accentHover: "hsl(35, 22%, 84%)",
-      hoverBg: "hsl(40, 25%, 93%)",
-      focusRing: "hsl(35, 30%, 80%)",
-      overlay: "hsla(30, 15%, 15%, 0.04)",
     },
     dark: {
       bg: "hsl(30, 5%, 10.5%)",
       surface: "hsl(30, 5%, 12%)",
-      surfaceElevated: "hsl(30, 6%, 14%)",
       textPrimary: "hsl(40, 20%, 92%)",
       textSecondary: "hsl(40, 15%, 70%)",
       textMuted: "hsl(30, 10%, 50%)",
-      textDisabled: "hsl(30, 8%, 35%)",
       border: "hsl(30, 5%, 20%)",
       borderSubtle: "hsl(30, 5%, 16%)",
       accent: "hsl(35, 20%, 30%)",
-      accentHover: "hsl(35, 22%, 35%)",
-      hoverBg: "hsl(30, 5%, 15%)",
-      focusRing: "hsl(35, 20%, 50%)",
-      overlay: "hsla(40, 20%, 92%, 0.04)",
     },
   },
   shadows: {
-    sm: "0 1px 2px rgba(0,0,0,0.05)",
     md: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)",
     paper: "0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02)",
-    elevated: "0 25px 50px -12px rgba(0,0,0,0.08)",
   },
-} as const;
+};
 
-// ── Escher Pattern SVG ────────────────────────────────
 const EscherPattern = ({ color }: { color: string }) => (
   <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
     <defs>
@@ -72,50 +52,6 @@ const EscherPattern = ({ color }: { color: string }) => (
   </svg>
 );
 
-// ── Skeleton Card ─────────────────────────────────────
-interface SkeletonCardProps {
-  lines: Array<"dot" | number>;
-  style: React.CSSProperties;
-  animDelay: number;
-  isDark: boolean;
-}
-
-const SkeletonCard = ({ lines, style, animDelay, isDark }: SkeletonCardProps) => {
-  const c = isDark ? tokens.colors.dark : tokens.colors.light;
-  return (
-    <div style={{
-      position: "absolute",
-      background: c.surface,
-      border: `1px solid ${c.border}`,
-      borderRadius: 8,
-      padding: 24,
-      boxShadow: tokens.shadows.paper,
-      opacity: 0,
-      animation: `nexoraFloatIn ${animDelay}s ease-out forwards, nexoraFloat 12s ease-in-out ${animDelay + 0.8}s infinite`,
-      ...style,
-    }}>
-      {lines.map((line, i) => line === "dot" ? (
-        <div key={i} style={{
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background: c.accent,
-          marginBottom: 12,
-        }} />
-      ) : (
-        <div key={i} style={{
-          height: 6,
-          borderRadius: 3,
-          background: c.accent,
-          width: `${line}%`,
-          marginBottom: i < lines.length - 1 ? 8 : 0,
-        }} />
-      ))}
-    </div>
-  );
-};
-
-// ── Hamburger Icon ────────────────────────────────────
 const HamburgerIcon = ({ open, color }: { open: boolean; color: string }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
     <line x1="3" y1="5" x2="17" y2="5" stroke={color} strokeWidth="1.5" strokeLinecap="round"
@@ -127,7 +63,6 @@ const HamburgerIcon = ({ open, color }: { open: boolean; color: string }) => (
   </svg>
 );
 
-// ── Scroll Line Animation ─────────────────────────────
 const ScrollLine = () => (
   <div style={{
     width: 1,
@@ -147,10 +82,6 @@ const ScrollLine = () => (
   </div>
 );
 
-// ══════════════════════════════════════════════════════
-// ── MAIN COMPONENT ───────────────────────────────────
-// ══════════════════════════════════════════════════════
-
 export default function NexoraLandingPage() {
   const [isDark, setIsDark] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -159,7 +90,6 @@ export default function NexoraLandingPage() {
 
   const c = isDark ? tokens.colors.dark : tokens.colors.light;
 
-  // ── Responsive listener ──
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 639px)");
     const handler = (e: MediaQueryListEvent | MediaQueryList) => setIsMobile(e.matches);
@@ -168,7 +98,6 @@ export default function NexoraLandingPage() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // ── Inject keyframes ──
   useEffect(() => {
     if (typeof document === "undefined") return;
     const style = document.createElement("style");
@@ -176,9 +105,6 @@ export default function NexoraLandingPage() {
       @keyframes nexoraFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes nexoraFadeDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes nexoraSlowSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-      @keyframes nexoraFloatIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-      @keyframes nexoraFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-      @keyframes nexoraMenuSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
     `;
     document.head.appendChild(style);
@@ -197,7 +123,6 @@ export default function NexoraLandingPage() {
       position: "relative",
       overflowX: "hidden",
     }}>
-      {/* ── Grain overlay ── */}
       <div style={{
         position: "fixed",
         inset: 0,
@@ -206,7 +131,6 @@ export default function NexoraLandingPage() {
         zIndex: 1,
       }} />
 
-      {/* ── Noise overlay ── */}
       <div style={{
         position: "fixed",
         inset: 0,
@@ -216,7 +140,6 @@ export default function NexoraLandingPage() {
         zIndex: 1,
       }} />
 
-      {/* ═══════ NAV ═══════ */}
       <nav style={{
         position: "fixed",
         top: 0,
@@ -229,7 +152,6 @@ export default function NexoraLandingPage() {
         justifyContent: "space-between",
         animation: "nexoraFadeDown 0.8s ease-out",
       }}>
-        {/* Logo */}
         <div style={{
           fontSize: "10px",
           letterSpacing: "0.12em",
@@ -237,7 +159,6 @@ export default function NexoraLandingPage() {
           fontFamily: "monospace",
         }}>nexora</div>
 
-        {/* Desktop links */}
         {!isMobile && (
           <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
             {navLinks.map((link) => (
@@ -253,7 +174,6 @@ export default function NexoraLandingPage() {
                 {link}
               </a>
             ))}
-            {/* Theme toggle button - NO ICONS */}
             <button onClick={() => setIsDark(!isDark)} aria-label="Toggle theme" style={{
               width: 12,
               height: 12,
@@ -266,10 +186,8 @@ export default function NexoraLandingPage() {
           </div>
         )}
 
-        {/* Mobile controls */}
         {isMobile && (
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            {/* Theme toggle button - NO ICONS */}
             <button onClick={() => setIsDark(!isDark)} aria-label="Toggle theme" style={{
               width: 12,
               height: 12,
@@ -278,7 +196,7 @@ export default function NexoraLandingPage() {
               background: isDark ? c.textPrimary : "transparent",
               cursor: "pointer",
             }} />
-            <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen} style={{
+            <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" style={{
               width: 36,
               height: 36,
               borderRadius: "50%",
@@ -296,7 +214,6 @@ export default function NexoraLandingPage() {
         )}
       </nav>
 
-      {/* ── Mobile Menu Drawer ── */}
       {isMobile && menuOpen && (
         <div style={{
           position: "fixed",
@@ -307,7 +224,6 @@ export default function NexoraLandingPage() {
           background: c.surface,
           borderBottom: `1px solid ${c.border}`,
           padding: "8px 16px 16px",
-          animation: "nexoraMenuSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         }}>
           {navLinks.map((link) => (
             <a key={link} href="#" onClick={() => setMenuOpen(false)} style={{
@@ -326,19 +242,17 @@ export default function NexoraLandingPage() {
         </div>
       )}
 
-      {/* ═══════ HERO ═══════ */}
       <section style={{
         minHeight: "110vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: isMobile ? "40px 20px 60px" : "50px 48px 80px",
+        padding: isMobile ? "20px 20px 60px" : "30px 48px 80px",
         position: "relative",
         zIndex: 2,
         textAlign: "center",
       }}>
-        {/* Escher pattern - ONLY ON LIGHT THEME */}
         {!isDark && (
           <div style={{
             position: "absolute",
@@ -355,23 +269,6 @@ export default function NexoraLandingPage() {
           </div>
         )}
 
-        {/* Floating cards - ONLY ON LIGHT THEME, desktop only */}
-        {!isDark && !isMobile && (
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            pointerEvents: "none",
-            zIndex: 0,
-            overflow: "hidden",
-          }}>
-            <SkeletonCard isDark={isDark} lines={["dot", 90, 60, 80]} style={{ top: "18%", left: "8%", width: 180, height: 120 }} animDelay={1.0} />
-            <SkeletonCard isDark={isDark} lines={[70, 90, 40]} style={{ top: "22%", right: "7%", width: 160, height: 100 }} animDelay={1.2} />
-            <SkeletonCard isDark={isDark} lines={["dot", 80, 60]} style={{ bottom: "20%", left: "10%", width: 140, height: 90 }} animDelay={1.4} />
-            <SkeletonCard isDark={isDark} lines={[60, 90, 70, 40]} style={{ bottom: "18%", right: "9%", width: 170, height: 110 }} animDelay={1.6} />
-          </div>
-        )}
-
-        {/* ── Content ── */}
         <p style={{
           fontFamily: "'Geist Mono', monospace",
           fontSize: isMobile ? "0.563rem" : "0.75rem",
@@ -413,7 +310,6 @@ export default function NexoraLandingPage() {
           Infrastrukturprojekte – von der Anfrage bis zur Abnahme.
         </p>
 
-        {/* CTA Group */}
         <div style={{
           display: "flex",
           flexDirection: isMobile ? "column" : "row",
@@ -472,7 +368,6 @@ export default function NexoraLandingPage() {
           </button>
         </div>
 
-        {/* Scroll Line Animation */}
         <div style={{
           position: "absolute",
           bottom: 48,
