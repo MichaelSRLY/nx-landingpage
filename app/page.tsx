@@ -1,320 +1,758 @@
-import Navigation from "@/components/layout/Navigation";
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
-import EscherPattern from "@/components/ui/EscherPattern";
-import SkeletonCard from "@/components/ui/SkeletonCard";
+"use client";
+import { useState, useEffect, useRef } from "react";
 
-export default function Home() {
+/* ═══════════════════════════════════════════════════════
+   NEXORA WARM PAPER DESIGN SYSTEM — Hero Section
+   React / TypeScript · Mobile-First Responsive
+   ═══════════════════════════════════════════════════════ */
+
+// ── Design Tokens ──────────────────────────────────────
+
+const tokens = {
+  colors: {
+    light: {
+      bg: "hsl(40, 30%, 97%)",
+      surface: "hsl(40, 25%, 95%)",
+      surfaceElevated: "hsl(40, 28%, 98%)",
+      textPrimary: "hsl(30, 15%, 15%)",
+      textSecondary: "hsl(30, 10%, 40%)",
+      textMuted: "hsl(35, 10%, 60%)",
+      textDisabled: "hsl(35, 8%, 75%)",
+      border: "hsl(35, 15%, 85%)",
+      borderSubtle: "hsl(35, 12%, 90%)",
+      accent: "hsl(35, 20%, 88%)",
+      accentHover: "hsl(35, 22%, 84%)",
+      hoverBg: "hsl(40, 25%, 93%)",
+      focusRing: "hsl(35, 30%, 80%)",
+      overlay: "hsla(30, 15%, 15%, 0.04)",
+    },
+    dark: {
+      bg: "hsl(30, 5%, 10.5%)",
+      surface: "hsl(30, 5%, 12%)",
+      surfaceElevated: "hsl(30, 6%, 14%)",
+      textPrimary: "hsl(40, 20%, 92%)",
+      textSecondary: "hsl(40, 15%, 70%)",
+      textMuted: "hsl(30, 10%, 50%)",
+      textDisabled: "hsl(30, 8%, 35%)",
+      border: "hsl(30, 5%, 20%)",
+      borderSubtle: "hsl(30, 5%, 16%)",
+      accent: "hsl(35, 20%, 30%)",
+      accentHover: "hsl(35, 22%, 35%)",
+      hoverBg: "hsl(30, 5%, 15%)",
+      focusRing: "hsl(35, 20%, 50%)",
+      overlay: "hsla(40, 20%, 92%, 0.04)",
+    },
+  },
+  shadows: {
+    sm: "0 1px 2px rgba(0,0,0,0.05)",
+    md: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)",
+    paper:
+      "0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02)",
+    elevated: "0 25px 50px -12px rgba(0,0,0,0.08)",
+  },
+} as const;
+
+// ── Escher Pattern SVG ────────────────────────────────
+
+const EscherPattern = ({ color }: { color: string }) => (
+  <svg
+    viewBox="0 0 400 400"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ width: "100%", height: "100%" }}
+  >
+    <defs>
+      <pattern
+        id="escher"
+        x="0"
+        y="0"
+        width="80"
+        height="80"
+        patternUnits="userSpaceOnUse"
+      >
+        {[0, 40].map((x) =>
+          [0, 40].map((y) => (
+            <path
+              key={`${x}-${y}`}
+              d={`M${x} ${y} L${x + 40} ${y} L${x + 40} ${y + 40} L${x} ${y + 40} Z`}
+              stroke={color}
+              strokeWidth="0.5"
+              fill="none"
+            />
+          ))
+        )}
+        {[20, 60].map((cx) =>
+          [0, 40].map((y) => (
+            <path
+              key={`v-${cx}-${y}`}
+              d={`M${cx} ${y} Q${cx + 10} ${y + 20} ${cx} ${y + 40} Q${cx - 10} ${y + 20} ${cx} ${y}`}
+              stroke={color}
+              strokeWidth="0.5"
+              fill="none"
+            />
+          ))
+        )}
+        {[0, 40].map((x) =>
+          [20, 60].map((cy) => (
+            <path
+              key={`h-${x}-${cy}`}
+              d={`M${x} ${cy} Q${x + 20} ${cy + 10} ${x + 40} ${cy} Q${x + 20} ${cy - 10} ${x} ${cy}`}
+              stroke={color}
+              strokeWidth="0.5"
+              fill="none"
+            />
+          ))
+        )}
+        {[20, 60].map((cx) =>
+          [20, 60].map((cy) => (
+            <circle
+              key={`c-${cx}-${cy}`}
+              cx={cx}
+              cy={cy}
+              r="3"
+              stroke={color}
+              strokeWidth="0.3"
+              fill="none"
+            />
+          ))
+        )}
+      </pattern>
+    </defs>
+    <rect width="400" height="400" fill="url(#escher)" />
+  </svg>
+);
+
+// ── Skeleton Card ─────────────────────────────────────
+
+interface SkeletonCardProps {
+  lines: Array<"dot" | number>;
+  style: React.CSSProperties;
+  animDelay: number;
+  isDark: boolean;
+}
+
+const SkeletonCard = ({ lines, style, animDelay, isDark }: SkeletonCardProps) => {
+  const c = isDark ? tokens.colors.dark : tokens.colors.light;
   return (
-    <div className="min-h-screen">
-      <Navigation />
+    <div
+      style={{
+        position: "absolute",
+        background: c.surface,
+        border: `1px solid ${c.border}`,
+        borderRadius: 8,
+        padding: 24,
+        boxShadow: tokens.shadows.paper,
+        opacity: 0,
+        animation: `nexoraFloatIn ${animDelay}s ease-out forwards, nexoraFloat 12s ease-in-out ${animDelay + 0.8}s infinite`,
+        ...style,
+      }}
+    >
+      {lines.map((line, i) =>
+        line === "dot" ? (
+          <div
+            key={i}
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              background: c.accent,
+              marginBottom: 12,
+            }}
+          />
+        ) : (
+          <div
+            key={i}
+            style={{
+              height: 6,
+              borderRadius: 3,
+              background: c.accent,
+              width: `${line}%`,
+              marginBottom: i < lines.length - 1 ? 8 : 0,
+            }}
+          />
+        )
+      )}
+    </div>
+  );
+};
 
-      {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-14">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <EscherPattern className="w-full h-full" />
-        </div>
+// ── Hamburger Icon ────────────────────────────────────
 
-        {/* Floating Skeleton Cards - Desktop Only */}
-        <div className="hidden lg:block absolute inset-0 pointer-events-none">
-          <SkeletonCard delay={0} className="top-20 left-10" />
-          <SkeletonCard delay={0.2} className="top-40 right-20" />
-          <SkeletonCard delay={0.4} className="bottom-32 left-20" />
-          <SkeletonCard delay={0.6} className="bottom-20 right-10" />
-        </div>
+const HamburgerIcon = ({ open, color }: { open: boolean; color: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <line
+      x1="3"
+      y1="5"
+      x2="17"
+      y2="5"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      style={{
+        transition: "all 300ms ease",
+        transformOrigin: "center",
+        transform: open ? "translateY(5px) rotate(45deg)" : "none",
+      }}
+    />
+    <line
+      x1="3"
+      y1="10"
+      x2="17"
+      y2="10"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      style={{
+        transition: "all 300ms ease",
+        opacity: open ? 0 : 1,
+      }}
+    />
+    <line
+      x1="3"
+      y1="15"
+      x2="17"
+      y2="15"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      style={{
+        transition: "all 300ms ease",
+        transformOrigin: "center",
+        transform: open ? "translateY(-5px) rotate(-45deg)" : "none",
+      }}
+    />
+  </svg>
+);
 
-        {/* Hero Content */}
-        <div className="container relative z-10 text-center px-4 py-16 md:py-24">
-          <h1 className="text-display font-bold mb-6 animate-fadeDown">
-            Generalunternehmer für<br />Energie & Infrastruktur
-          </h1>
-          <p className="text-h2 mb-8 animate-fadeUp" style={{ color: 'hsl(32 12% 35%)', animationDelay: "0.1s" }}>
-            Komplexe Projekte. Ein Partner.
-          </p>
-          <p className="text-body-lg max-w-2xl mx-auto mb-12 animate-fadeUp" style={{ color: 'hsl(35 10% 55%)', animationDelay: "0.2s" }}>
-            Nexora übernimmt die Gesamtverantwortung für Ihre Energie-, Elektro- und
-            Infrastrukturprojekte – von der Anfrage bis zur Abnahme.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeUp" style={{ animationDelay: "0.3s" }}>
-            <Button href="#kontakt" variant="primary">
-              Projekt anfragen
-            </Button>
-            <Button href="#leistungen" variant="secondary">
-              Leistungen entdecken
-            </Button>
-          </div>
+// ── Scroll Hint ───────────────────────────────────────
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-16 md:mt-24 max-w-4xl mx-auto">
-            {[
-              { value: "150+", label: "Abgeschlossene Projekte" },
-              { value: "98%", label: "Termingerechte Übergabe" },
-              { value: "15+", label: "Jahre Erfahrung" },
-              { value: "100%", label: "Gesamtverantwortung" },
-            ].map((stat, index) => (
-              <div key={index} className="text-center animate-fadeUp" style={{ animationDelay: `${0.4 + index * 0.1}s` }}>
-                <div className="text-h1 font-bold mb-2" style={{ color: 'hsl(35 65% 55%)' }}>{stat.value}</div>
-                <div className="text-body-sm" style={{ color: 'hsl(35 10% 55%)' }}>{stat.label}</div>
-              </div>
+const ScrollHint = ({ isDark }: { isDark: boolean }) => {
+  const c = isDark ? tokens.colors.dark : tokens.colors.light;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom: 32,
+        left: "50%",
+        transform: "translateX(-50%)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 8,
+        animation: "nexoraFadeUp 0.8s ease-out 1s both",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "'Geist Mono', monospace",
+          fontSize: "0.5rem",
+          letterSpacing: "0.15em",
+          textTransform: "uppercase" as const,
+          color: c.textMuted,
+        }}
+      >
+        Scroll
+      </span>
+      <div
+        style={{
+          width: 1,
+          height: 32,
+          background: c.border,
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "-100%",
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: c.textMuted,
+            animation: "nexoraScrollPulse 2s ease-in-out infinite",
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+// ══════════════════════════════════════════════════════
+// ── MAIN COMPONENT ───────────────────────────────────
+// ══════════════════════════════════════════════════════
+
+export default function NexoraHero() {
+  const [isDark, setIsDark] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const stylesRef = useRef<HTMLStyleElement | null>(null);
+
+  const c = isDark ? tokens.colors.dark : tokens.colors.light;
+
+  // ── Responsive listener ──
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const handler = (e: MediaQueryListEvent | MediaQueryList) =>
+      setIsMobile(e.matches);
+    handler(mq);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  // Close menu on resize to desktop
+  useEffect(() => {
+    if (!isMobile) setMenuOpen(false);
+  }, [isMobile]);
+
+  // ── Inject keyframes ──
+  useEffect(() => {
+    if (stylesRef.current) return;
+    const style = document.createElement("style");
+    style.textContent = `
+      @keyframes nexoraFadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes nexoraFadeDown {
+        from { opacity: 0; transform: translateY(-12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes nexoraFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+      @keyframes nexoraFloatIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 0.65; transform: scale(1); }
+      }
+      @keyframes nexoraScrollPulse {
+        0% { top: -100%; }
+        50% { top: 100%; }
+        100% { top: 100%; }
+      }
+      @keyframes nexoraSlowSpin {
+        from { transform: translate(-50%, -50%) rotate(0deg); }
+        to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      @keyframes nexoraMenuSlide {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    stylesRef.current = style;
+  }, []);
+
+  const navLinks = ["About", "Work", "Journal"];
+
+  return (
+    <div
+      style={{
+        fontFamily: "'Geist Sans', system-ui, -apple-system, sans-serif",
+        background: c.bg,
+        color: c.textPrimary,
+        minHeight: "100vh",
+        position: "relative",
+        overflowX: "hidden",
+      }}
+    >
+      {/* ── Grain overlay ── */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background:
+            "radial-gradient(at 50% 20%, rgba(160,120,70,0.06) 0%, transparent 50%)",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
+      {/* ── Noise overlay ── */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          opacity: isDark ? 0.05 : 0.035,
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
+      {/* ═══════ NAV ═══════ */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          padding: isMobile ? "12px 16px" : "16px 32px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          background: `color-mix(in srgb, ${c.bg} 80%, transparent)`,
+          borderBottom: `1px solid ${c.border}`,
+          animation: "nexoraFadeDown 0.8s ease-out",
+        }}
+      >
+        {/* Logo */}
+        <span
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: isMobile ? "0.75rem" : "0.875rem",
+            fontWeight: 600,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase" as const,
+            color: c.textPrimary,
+          }}
+        >
+          Nexora
+        </span>
+
+        {/* Desktop links */}
+        {!isMobile && (
+          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+            {navLinks.map((link) => (
+              <a
+                key={link}
+                href="#"
+                style={{
+                  fontSize: "0.875rem",
+                  fontWeight: 300,
+                  color: c.textSecondary,
+                  textDecoration: "none",
+                  letterSpacing: "0.02em",
+                  transition: "color 0.3s ease",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = c.textPrimary)
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = c.textSecondary)
+                }
+              >
+                {link}
+              </a>
             ))}
+            <button
+              onClick={() => setIsDark(!isDark)}
+              aria-label="Toggle theme"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: `1px solid ${c.border}`,
+                background: c.surface,
+                color: c.textSecondary,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.3s ease",
+                fontSize: "0.875rem",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = c.accent;
+                e.currentTarget.style.color = c.textPrimary;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = c.surface;
+                e.currentTarget.style.color = c.textSecondary;
+              }}
+            >
+              {isDark ? "☀" : "☾"}
+            </button>
           </div>
+        )}
+
+        {/* Mobile controls */}
+        {isMobile && (
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <button
+              onClick={() => setIsDark(!isDark)}
+              aria-label="Toggle theme"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: `1px solid ${c.border}`,
+                background: c.surface,
+                color: c.textSecondary,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "0.813rem",
+              }}
+            >
+              {isDark ? "☀" : "☾"}
+            </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: "50%",
+                border: `1px solid ${c.border}`,
+                background: c.surface,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+              }}
+            >
+              <HamburgerIcon open={menuOpen} color={c.textSecondary} />
+            </button>
+          </div>
+        )}
+      </nav>
+
+      {/* ── Mobile Menu Drawer ── */}
+      {isMobile && menuOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: isMobile ? 52 : 64,
+            left: 0,
+            right: 0,
+            zIndex: 99,
+            background: c.surface,
+            borderBottom: `1px solid ${c.border}`,
+            padding: "8px 16px 16px",
+            animation: "nexoraMenuSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          {navLinks.map((link, i) => (
+            <a
+              key={link}
+              href="#"
+              onClick={() => setMenuOpen(false)}
+              style={{
+                display: "block",
+                padding: "16px 0",
+                fontSize: "0.938rem",
+                fontWeight: 300,
+                color: c.textSecondary,
+                textDecoration: "none",
+                letterSpacing: "0.02em",
+                borderBottom:
+                  i < navLinks.length - 1
+                    ? `1px solid ${c.borderSubtle}`
+                    : "none",
+                animation: `nexoraFadeUp 0.3s ease-out ${i * 0.05}s both`,
+              }}
+            >
+              {link}
+            </a>
+          ))}
         </div>
+      )}
+
+      {/* ═══════ HERO ═══════ */}
+      <section
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: isMobile ? "100px 20px 48px" : "128px 48px 64px",
+          position: "relative",
+          zIndex: 2,
+          textAlign: "center",
+        }}
+      >
+        {/* Escher pattern */}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: isMobile ? 280 : 560,
+            height: isMobile ? 280 : 560,
+            opacity: isDark ? 0.06 : 0.04,
+            pointerEvents: "none",
+            animation: "nexoraSlowSpin 120s linear infinite",
+          }}
+        >
+          <EscherPattern color={c.textPrimary} />
+        </div>
+
+        {/* Floating cards — desktop only */}
+        {!isMobile && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              zIndex: 0,
+              overflow: "hidden",
+            }}
+          >
+            <SkeletonCard
+              isDark={isDark}
+              lines={["dot", 90, 60, 80]}
+              style={{ top: "18%", left: "8%", width: 180, height: 120 }}
+              animDelay={1.0}
+            />
+            <SkeletonCard
+              isDark={isDark}
+              lines={[70, 90, 40]}
+              style={{ top: "22%", right: "7%", width: 160, height: 100 }}
+              animDelay={1.2}
+            />
+            <SkeletonCard
+              isDark={isDark}
+              lines={["dot", 80, 60]}
+              style={{ bottom: "20%", left: "10%", width: 140, height: 90 }}
+              animDelay={1.4}
+            />
+            <SkeletonCard
+              isDark={isDark}
+              lines={[60, 90, 70, 40]}
+              style={{ bottom: "18%", right: "9%", width: 170, height: 110 }}
+              animDelay={1.6}
+            />
+          </div>
+        )}
+
+        {/* ── Content ── */}
+        <p
+          style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: isMobile ? "0.563rem" : "0.75rem",
+            fontWeight: 400,
+            letterSpacing: "0.15em",
+            textTransform: "uppercase" as const,
+            color: c.textMuted,
+            marginBottom: 32,
+            animation: "nexoraFadeUp 0.8s ease-out 0.2s both",
+          }}
+        >
+          Design System v2.0
+        </p>
+
+        <h1
+          style={{
+            fontSize: isMobile ? "2rem" : "4rem",
+            fontWeight: 200,
+            lineHeight: isMobile ? 1.1 : 1.05,
+            letterSpacing: isMobile ? "-0.02em" : "-0.03em",
+            color: c.textPrimary,
+            maxWidth: isMobile ? "100%" : 720,
+            marginBottom: 32,
+            animation: "nexoraFadeUp 0.8s ease-out 0.35s both",
+          }}
+        >
+          Built on paper,
+          <br />
+          shaped by{" "}
+          <em style={{ fontStyle: "italic", fontWeight: 100 }}>geometry</em>
+        </h1>
+
+        <p
+          style={{
+            fontSize: isMobile ? "0.813rem" : "1rem",
+            fontWeight: 300,
+            color: c.textSecondary,
+            maxWidth: isMobile ? "100%" : 480,
+            lineHeight: 1.7,
+            marginBottom: 48,
+            animation: "nexoraFadeUp 0.8s ease-out 0.5s both",
+          }}
+        >
+          A warm, papery aesthetic anchored in earth tones — where every surface
+          feels tactile and every element finds its place in the tessellation.
+        </p>
+
+        {/* CTA Group */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            gap: isMobile ? 12 : 16,
+            alignItems: "center",
+            width: isMobile ? "100%" : "auto",
+            maxWidth: isMobile ? 280 : "none",
+            animation: "nexoraFadeUp 0.8s ease-out 0.65s both",
+          }}
+        >
+          <button
+            style={{
+              fontFamily: "'Geist Sans', system-ui, sans-serif",
+              fontSize: isMobile ? "0.75rem" : "0.875rem",
+              fontWeight: 400,
+              letterSpacing: "0.02em",
+              padding: isMobile ? "12px 24px" : "14px 32px",
+              background: c.textPrimary,
+              color: c.bg,
+              border: "none",
+              borderRadius: 8,
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              boxShadow: tokens.shadows.md,
+              width: isMobile ? "100%" : "auto",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-1px)";
+              e.currentTarget.style.boxShadow = tokens.shadows.paper;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = tokens.shadows.md;
+            }}
+          >
+            Explore Components
+          </button>
+          <button
+            style={{
+              fontFamily: "'Geist Sans', system-ui, sans-serif",
+              fontSize: isMobile ? "0.75rem" : "0.875rem",
+              fontWeight: 300,
+              letterSpacing: "0.02em",
+              padding: isMobile ? "12px 24px" : "14px 32px",
+              background: "transparent",
+              color: c.textSecondary,
+              border: `1px solid ${c.border}`,
+              borderRadius: 8,
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              width: isMobile ? "100%" : "auto",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = c.textMuted;
+              e.currentTarget.style.color = c.textPrimary;
+              e.currentTarget.style.background = c.surface;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = c.border;
+              e.currentTarget.style.color = c.textSecondary;
+              e.currentTarget.style.background = "transparent";
+            }}
+          >
+            Read the Docs
+          </button>
+        </div>
+
+        {/* Scroll Hint */}
+        <ScrollHint isDark={isDark} />
       </section>
-
-      {/* Das Problem */}
-      <section className="py-16 md:py-24" style={{ backgroundColor: 'hsl(40 25% 95% / 0.5)' }}>
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-h1 font-bold mb-6">
-              Komplexe Projekte, viele Gewerke – wer koordiniert?
-            </h2>
-            <p className="text-body-lg" style={{ color: 'hsl(32 12% 35%)' }}>
-              Bei Großprojekten im Bereich Energie und Infrastruktur arbeiten zahlreiche
-              Spezialisten zusammen: Elektriker, Tiefbauer, Blitzschutz-Experten, PV-Installateure
-              und viele mehr. Das Ergebnis ohne zentrale Steuerung: Terminverzögerungen,
-              Schnittstellenprobleme und undurchsichtige Verantwortlichkeiten.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Unsere Lösung */}
-      <section className="py-16 md:py-24">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-h1 font-bold mb-12 text-center">
-              Unsere Lösung: One Face to the Customer
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                "Ein Ansprechpartner für alle Gewerke",
-                "Klare Verantwortlichkeiten und Prozesse",
-                "Transparente Kommunikation und Reporting",
-                "Terminsicherheit durch professionelles Projektmanagement",
-                "Qualitätssicherung über alle Schnittstellen",
-              ].map((item, index) => (
-                <Card key={index} hover className="flex items-start gap-4">
-                  <div className="w-6 h-6 rounded-full flex-shrink-0 mt-1" style={{ backgroundColor: 'hsl(35 65% 55% / 0.2)' }} />
-                  <p className="text-body" style={{ color: 'hsl(30 15% 15%)' }}>{item}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Ihre Vorteile */}
-      <section id="vorgehen" className="py-16 md:py-24" style={{ backgroundColor: 'hsl(40 25% 95% / 0.5)' }}>
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-h1 font-bold mb-4">
-                Warum Auftraggeber mit Nexora arbeiten
-              </h2>
-              <p className="text-body-lg" style={{ color: 'hsl(32 12% 35%)' }}>
-                Wir reduzieren Komplexität und schaffen klare Strukturen für Ihren Projekterfolg.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "Ein Ansprechpartner",
-                  description:
-                    "Keine Koordination zwischen Dutzenden Gewerken. Sie sprechen mit uns – wir kümmern uns um den Rest.",
-                },
-                {
-                  title: "Gesamtverantwortung",
-                  description:
-                    "Wir übernehmen die volle Verantwortung für Ihr Projekt. Termine, Qualität und Budget aus einer Hand.",
-                },
-                {
-                  title: "Strukturiertes Vorgehen",
-                  description:
-                    "Klare Prozesse, transparente Kommunikation und nachvollziehbare Meilensteine von Anfang bis Ende.",
-                },
-              ].map((benefit, index) => (
-                <Card key={index} hover>
-                  <h3 className="text-h3 font-bold mb-4">{benefit.title}</h3>
-                  <p className="text-body" style={{ color: 'hsl(32 12% 35%)' }}>{benefit.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Leistungen */}
-      <section id="leistungen" className="py-16 md:py-24">
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-h1 font-bold mb-4">Was wir für Sie tun</h2>
-              <p className="text-body-lg" style={{ color: 'hsl(32 12% 35%)' }}>
-                Von der ersten Beratung bis zur finalen Abnahme – wir begleiten Ihr Projekt in
-                allen Phasen.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "Generalunternehmung",
-                  description:
-                    "Wir bündeln alle Gewerke und übernehmen die Gesamtverantwortung für Ihr Projekt.",
-                },
-                {
-                  title: "Projektmanagement",
-                  description:
-                    "Professionelle Steuerung komplexer Vorhaben mit klaren Strukturen und Prozessen.",
-                },
-                {
-                  title: "Energie & Elektro",
-                  description:
-                    "Spezialisiert auf anspruchsvolle Energie- und Elektroinfrastruktur-Projekte.",
-                },
-                {
-                  title: "Infrastruktur",
-                  description:
-                    "Von Tiefbau über Kabelverlegung bis zur schlüsselfertigen Übergabe.",
-                },
-              ].map((service, index) => (
-                <Card key={index} hover>
-                  <h3 className="text-h3 font-bold mb-4">{service.title}</h3>
-                  <p className="text-body" style={{ color: 'hsl(32 12% 35%)' }}>{service.description}</p>
-                </Card>
-              ))}
-            </div>
-            <div className="text-center mt-8">
-              <Button href="#kontakt" variant="secondary">
-                Alle Leistungen ansehen
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Für wen wir arbeiten */}
-      <section id="referenzen" className="py-16 md:py-24" style={{ backgroundColor: 'hsl(40 25% 95% / 0.5)' }}>
-        <div className="container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-h1 font-bold mb-4">Unsere Auftraggeber</h2>
-              <p className="text-body-lg" style={{ color: 'hsl(32 12% 35%)' }}>
-                Wir sind der richtige Partner für Unternehmen mit komplexen Anforderungen.
-              </p>
-            </div>
-            <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                {
-                  title: "Industrieunternehmen",
-                  description: "Produktions- und Logistikstandorte",
-                },
-                {
-                  title: "Projektentwickler",
-                  description: "Gewerbliche Bauprojekte",
-                },
-                {
-                  title: "Energieversorger",
-                  description: "Infrastruktur & Netzausbau",
-                },
-                {
-                  title: "Betreiber",
-                  description: "Märkte, Gewerbeimmobilien",
-                },
-              ].map((client, index) => (
-                <Card key={index} hover className="text-center">
-                  <h3 className="text-h3 font-bold mb-3">{client.title}</h3>
-                  <p className="text-body-sm" style={{ color: 'hsl(32 12% 35%)' }}>{client.description}</p>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section id="kontakt" className="py-16 md:py-24">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-h1 font-bold mb-6">Bereit für Ihr nächstes Projekt?</h2>
-            <p className="text-body-lg mb-8" style={{ color: 'hsl(32 12% 35%)' }}>
-              Lassen Sie uns gemeinsam besprechen, wie wir Ihr Vorhaben erfolgreich umsetzen können.
-              Unverbindlich und transparent.
-            </p>
-            <Button href="mailto:info@nexora-pv.de" variant="primary">
-              Projekt anfragen
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer id="ueber-uns" className="py-12 md:py-16" style={{ backgroundColor: 'hsl(30 15% 15%)', color: 'hsl(40 25% 95%)' }}>
-        <div className="container">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            {/* Company Info */}
-            <div>
-              <h3 className="text-h3 font-bold mb-4">Nexora GmbH</h3>
-              <p className="text-body-sm mb-4" style={{ opacity: 0.8 }}>
-                Ihr Generalunternehmer für komplexe Energie-, Elektro- und Infrastrukturprojekte.
-                Ein Ansprechpartner – von der Anfrage bis zur Abnahme.
-              </p>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="text-body font-bold mb-4">Kontakt</h4>
-              <div className="space-y-2 text-body-sm" style={{ opacity: 0.8 }}>
-                <p>Grüner Ring 15</p>
-                <p>04509 Delitzsch</p>
-                <p className="pt-2">
-                  <a href="mailto:info@nexora-pv.de" className="hover:opacity-100 transition-opacity">
-                    info@nexora-pv.de
-                  </a>
-                </p>
-                <p>
-                  <a href="tel:+4934202899882" className="hover:opacity-100 transition-opacity">
-                    +49 (0) 34202 899882
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            {/* Navigation */}
-            <div>
-              <h4 className="text-body font-bold mb-4">Navigation</h4>
-              <div className="space-y-2 text-body-sm">
-                {["Startseite", "Leistungen", "Vorgehen", "Referenzen", "Über uns", "Kontakt"].map(
-                  (item) => (
-                    <div key={item}>
-                      <a
-                        href={`#${item.toLowerCase().replace(" ", "-").replace("ü", "ue")}`}
-                        className="hover:opacity-100 transition-opacity"
-                        style={{ opacity: 0.8 }}
-                      >
-                        {item}
-                      </a>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom Bar */}
-          <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-body-sm" style={{ borderColor: 'hsl(40 25% 95% / 0.2)', opacity: 0.6 }}>
-            <p>© 2026 Nexora GmbH. Alle Rechte vorbehalten.</p>
-            <div className="flex gap-6">
-              <a href="#impressum" className="hover:opacity-100 transition-opacity">
-                Impressum
-              </a>
-              <a href="#datenschutz" className="hover:opacity-100 transition-opacity">
-                Datenschutz
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
