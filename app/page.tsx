@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 
 /* ═══════════════════════════════════════════════════════
    NEXORA - Generalunternehmer für Energie & Infrastruktur
-   Exact design from raw context with German content
    ═══════════════════════════════════════════════════════ */
 
 // ── Design Tokens ──────────────────────────────────────
@@ -128,41 +127,25 @@ const HamburgerIcon = ({ open, color }: { open: boolean; color: string }) => (
   </svg>
 );
 
-// ── Scroll Hint ───────────────────────────────────────
-const ScrollHint = ({ isDark }: { isDark: boolean }) => {
-  const c = isDark ? tokens.colors.dark : tokens.colors.light;
-  return (
+// ── Scroll Line Animation ─────────────────────────────
+const ScrollLine = () => (
+  <div style={{
+    width: 1,
+    height: 32,
+    backgroundColor: "rgba(150, 130, 100, 0.15)",
+    margin: "0 auto",
+    position: "relative",
+    overflow: "hidden",
+  }}>
     <div style={{
       position: "absolute",
-      bottom: 48,
-      left: "50%",
-      transform: "translateX(-50%)",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      gap: 12,
-      animation: "nexoraScrollBounce 2s ease-in-out infinite",
-      cursor: "pointer",
-    }}>
-      <span style={{
-        fontFamily: "'Geist Mono', monospace",
-        fontSize: "0.5rem",
-        letterSpacing: "0.15em",
-        textTransform: "uppercase" as const,
-        color: c.textMuted,
-      }}>Scroll</span>
-      <svg width="24" height="36" viewBox="0 0 24 36" fill="none">
-        <path d="M12 2L12 28M12 28L6 22M12 28L18 22"
-          stroke={c.textMuted}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ animation: "nexoraArrowBounce 2s ease-in-out infinite" }}
-        />
-      </svg>
-    </div>
-  );
-};
+      width: "100%",
+      height: 12,
+      backgroundColor: "rgba(200, 160, 100, 0.5)",
+      animation: "scrollLine 1.6s ease-in-out infinite",
+    }} />
+  </div>
+);
 
 // ══════════════════════════════════════════════════════
 // ── MAIN COMPONENT ───────────────────────────────────
@@ -195,16 +178,8 @@ export default function NexoraLandingPage() {
       @keyframes nexoraSlowSpin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
       @keyframes nexoraFloatIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
       @keyframes nexoraFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-      @keyframes nexoraScrollPulse { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
       @keyframes nexoraMenuSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-      @keyframes nexoraScrollBounce {
-        0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
-        50% { transform: translateX(-50%) translateY(12px); opacity: 0.7; }
-      }
-      @keyframes nexoraArrowBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(6px); }
-      }
+      @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(300%); } }
     `;
     document.head.appendChild(style);
     stylesRef.current = style;
@@ -252,9 +227,6 @@ export default function NexoraLandingPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
-        background: `color-mix(in srgb, ${c.bg} 80%, transparent)`,
         animation: "nexoraFadeDown 0.8s ease-out",
       }}>
         {/* Logo */}
@@ -288,7 +260,7 @@ export default function NexoraLandingPage() {
               height: 36,
               borderRadius: "50%",
               border: `1px solid ${c.border}`,
-              background: c.surface,
+              background: "transparent",
               color: c.textSecondary,
               cursor: "pointer",
               display: "flex",
@@ -302,7 +274,7 @@ export default function NexoraLandingPage() {
               e.currentTarget.style.background = c.accent;
               e.currentTarget.style.color = c.textPrimary;
             }} onMouseLeave={(e) => {
-              e.currentTarget.style.background = c.surface;
+              e.currentTarget.style.background = "transparent";
               e.currentTarget.style.color = c.textSecondary;
             }}>
               {isDark ? "L" : "D"}
@@ -318,7 +290,7 @@ export default function NexoraLandingPage() {
               height: 36,
               borderRadius: "50%",
               border: `1px solid ${c.border}`,
-              background: c.surface,
+              background: "transparent",
               color: c.textSecondary,
               cursor: "pointer",
               display: "flex",
@@ -335,7 +307,7 @@ export default function NexoraLandingPage() {
               height: 36,
               borderRadius: "50%",
               border: `1px solid ${c.border}`,
-              background: c.surface,
+              background: "transparent",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
@@ -384,7 +356,7 @@ export default function NexoraLandingPage() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: isMobile ? "100px 20px 60px" : "140px 48px 80px",
+        padding: isMobile ? "80px 20px 60px" : "100px 48px 80px",
         position: "relative",
         zIndex: 2,
         textAlign: "center",
@@ -521,8 +493,15 @@ export default function NexoraLandingPage() {
           </button>
         </div>
 
-        {/* Scroll Hint */}
-        <ScrollHint isDark={isDark} />
+        {/* Scroll Line Animation */}
+        <div style={{
+          position: "absolute",
+          bottom: 48,
+          left: "50%",
+          transform: "translateX(-50%)",
+        }}>
+          <ScrollLine />
+        </div>
       </section>
     </div>
   );
