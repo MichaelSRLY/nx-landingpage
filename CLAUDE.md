@@ -354,8 +354,12 @@ Always report: "Retrieved X entries, ~Y tokens (saved Z% vs loading all)"
 
 ## Available Context Entries
 
-**Total:** 0 entries, ~0 tokens
+**Total:** 1 entries, ~0 tokens
 
+
+### design-system (1 entries, ~0 tokens)
+- `3a8b1433` **Nexora Warm Paper Design System v1 - Complete Documentation & Implementation** (~null tokens)
+  Nexora v1 is a comprehensive design system anchored in warm earth tones (HSL 30-40) inspired by M.C....
 
 
 ---
@@ -713,34 +717,35 @@ Or use the skill: `/tasks`
 ### GitHub Integration (AUTO-LINK IF MISSING!)
 
 
-**⚠️ NO GITHUB REPO LINKED - AUTO-CREATE ONE NOW!**
+**✅ GitHub Repo Linked:** `https://github.com/MichaelSRLY/nx-landingpage`
 
-This project doesn't have a GitHub repo. Create one immediately:
+You're working directly in the cloned repo. Use `gh` CLI for all GitHub operations:
 
 ```bash
-# 1. Initialize git if not already (check first)
-if [ ! -d .git ]; then
-  git init
-  git add .
-  git commit -m "Initial commit: nx-landingpage"
-fi
+# Check repo status
+git status
+git log --oneline -5
 
-# 2. Create GitHub repo (private by default)
-gh repo create MichaelSRLY/nx-landingpage --private --source=. --push
+# Create branch for feature work
+git checkout -b feature/your-feature-name
 
-# 3. Update database with the new repo URL
-psql "$(pass show railway/postgres-url)" -c "
-UPDATE context_bundles
-SET github_repo_url = 'https://github.com/MichaelSRLY/nx-landingpage',
-    github_repo_name = 'MichaelSRLY/nx-landingpage',
-    updated_at = NOW()
-WHERE id = '9e8b6e62-7e7b-4fca-8035-ff335428b928'::uuid;"
+# Commit and push
+git add .
+git commit -m "feat: description"
+git push -u origin HEAD
 
-# 4. Verify it worked
-gh repo view MichaelSRLY/nx-landingpage
+# Create PR
+gh pr create --title "Your PR Title" --body "Description of changes"
+
+# Check CI status
+gh pr checks
+
+# View issues
+gh issue list
+
+# Create issue
+gh issue create --title "Issue title" --body "Description"
 ```
-
-**DO THIS IMMEDIATELY** so your code is version controlled and backed up!
 
 
 ### GitHub Workflow Commands

@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors - Warm Earth Tones (HSL 30-40°) */
+  --color-background: hsl(40 30% 97%);
+  --color-surface: hsl(40 25% 95%);
+  --color-text-primary: hsl(30 15% 15%);
+  --color-text-secondary: hsl(32 12% 35%);
+  --color-text-muted: hsl(35 10% 55%);
+  --color-border: hsl(35 15% 85%);
+  --color-accent-warm: hsl(35 65% 55%);
+  --color-accent-cool: hsl(38 45% 48%);
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+
+  /* Animations */
+  --animate-fadeUp: fadeUp 0.6s ease-out forwards;
+  --animate-fadeDown: fadeDown 0.6s ease-out forwards;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-scrollPulse: scrollPulse 2s ease-in-out infinite;
+  --animate-slowSpin: slowSpin 120s linear infinite;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 hsl(30 10% 10% / 0.1);
+  --shadow-md: 0 4px 6px -1px hsl(30 10% 10% / 0.1);
+  --shadow-lg: 0 10px 15px -3px hsl(30 10% 10% / 0.1);
+  --shadow-paper: 0 2px 8px hsl(30 10% 10% / 0.1);
+  --shadow-elevated: 0 4px 16px hsl(30 10% 10% / 0.15);
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes scrollPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slowSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    position: relative;
+  }
+
+  /* Paper texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      hsl(40 20% 92%),
+      hsl(40 25% 95%),
+      hsl(40 18% 90%)
+    );
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ensure content appears above textures */
+  #__next,
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Accessibility: respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Responsive typography utility classes */
+@layer utilities {
+  .text-display {
+    font-size: 2rem;
+    line-height: 2.4rem;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .text-display {
+      font-size: 2.5rem;
+      line-height: 3rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .text-display {
+      font-size: 3rem;
+      line-height: 3.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .text-display {
+      font-size: 3.5rem;
+      line-height: 4rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .text-display {
+      font-size: 4rem;
+      line-height: 4.5rem;
+    }
+  }
+
+  .text-h1 {
+    font-size: 1.75rem;
+    line-height: 2.1rem;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .text-h1 {
+      font-size: 2rem;
+      line-height: 2.4rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h1 {
+      font-size: 2.25rem;
+      line-height: 2.7rem;
+    }
+  }
+
+  .text-h2 {
+    font-size: 1.5rem;
+    line-height: 1.9rem;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .text-h2 {
+      font-size: 1.75rem;
+      line-height: 2.1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .text-h2 {
+      font-size: 2rem;
+      line-height: 2.4rem;
+    }
+  }
+
+  .text-h3 {
+    font-size: 1.25rem;
+    line-height: 1.6rem;
+    letter-spacing: -0.005em;
+    font-weight: 700;
+  }
+
+  @media (min-width: 640px) {
+    .text-h3 {
+      font-size: 1.5rem;
+      line-height: 1.9rem;
+    }
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.8rem;
+  }
+
+  @media (min-width: 640px) {
+    .text-body-lg {
+      font-size: 1.25rem;
+      line-height: 2rem;
+    }
+  }
+
+  .text-body {
+    font-size: 1rem;
+    line-height: 1.6rem;
+  }
+
+  @media (min-width: 640px) {
+    .text-body {
+      font-size: 1.125rem;
+      line-height: 1.8rem;
+    }
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.4rem;
+  }
+
+  @media (min-width: 640px) {
+    .text-body-sm {
+      font-size: 1rem;
+      line-height: 1.6rem;
+    }
+  }
+}
