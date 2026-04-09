@@ -316,6 +316,22 @@ export default function Home() {
               </p>
             </div>
           </div>
+          <div style={{ marginTop: "40px", textAlign: "center" }}>
+            <a
+              href="https://www.willowwisp.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: "9px",
+                color: "var(--muted-foreground)",
+                opacity: 0.25,
+                textDecoration: "none",
+                letterSpacing: "0.05em"
+              }}
+            >
+              created by ww
+            </a>
+          </div>
         </div>
       </footer>
     </main>
