@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code local harness state
+.claude/
+
+# graphify artifacts (generated, not source)
+graphify-out/
+
+# research corpus (generated, not source)
+raw/
+
+# animation frames & source MP4s — too heavy for git (~800 MB)
+# deployed to Vercel via direct `vercel deploy` from local
+public/animations/
